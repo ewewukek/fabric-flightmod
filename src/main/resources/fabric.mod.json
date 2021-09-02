@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "flymod",
+  "version": "${version}",
+  "name": "Creative Fly Mod",
+  "description": "Modifier creative flight mechanics",
+  "authors": [
+    "ewewukek"
+  ],
+  "license": "MIT",
+  "environment": "client",
+  "mixins": [
+    "flymod.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.7.0"
+  }
+}
