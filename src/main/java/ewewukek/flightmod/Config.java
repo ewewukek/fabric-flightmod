@@ -1,4 +1,4 @@
-package ewewukek.flymod;
+package ewewukek.flightmod;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,12 +12,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Config {
-    private static final Logger logger = LogManager.getLogger(FlyMod.class);
+    private static final Logger logger = LogManager.getLogger(FlightMod.class);
 
     public static boolean conservativeMode = true;
 
     public static void load() {
-        try (BufferedReader reader = Files.newBufferedReader(FlyMod.CONFIG_PATH)) {
+        try (BufferedReader reader = Files.newBufferedReader(FlightMod.CONFIG_PATH)) {
             String line = reader.readLine();
             if (line == null) throw new IOException("unexpected end of file");
 
@@ -56,7 +56,7 @@ public class Config {
     }
 
     private static void save() {
-        try (BufferedWriter writer = Files.newBufferedWriter(FlyMod.CONFIG_PATH)) {
+        try (BufferedWriter writer = Files.newBufferedWriter(FlightMod.CONFIG_PATH)) {
             writer.write("conservativeMode = " + conservativeMode + "\n");
 
         } catch (IOException e) {

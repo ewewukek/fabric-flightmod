@@ -1,4 +1,4 @@
-package ewewukek.flymod;
+package ewewukek.flightmod;
 
 import java.nio.file.Path;
 
@@ -7,8 +7,8 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.LivingEntity;
 
-public class FlyMod implements ClientModInitializer {
-    public static final Path CONFIG_PATH = FabricLoader.getInstance().getConfigDir().resolve("flymod.txt");
+public class FlightMod implements ClientModInitializer {
+    public static final Path CONFIG_PATH = FabricLoader.getInstance().getConfigDir().resolve("flightmod.txt");
 
     public static boolean overrideVerticalFriction;
 

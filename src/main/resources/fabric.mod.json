@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "flymod",
+  "id": "flightmod",
   "version": "${version}",
-  "name": "Creative Fly Mod",
-  "description": "Modifier creative flight mechanics",
+  "name": "Creative Flight Mod",
+  "description": "More natural ascend/descend mechanics for creative flight",
   "authors": [
     "ewewukek"
   ],
@@ -11,11 +11,11 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "ewewukek.flymod.FlyMod"
+      "ewewukek.flightmod.FlightMod"
     ]
   },
   "mixins": [
-    "flymod.mixins.json"
+    "flightmod.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.7.0"

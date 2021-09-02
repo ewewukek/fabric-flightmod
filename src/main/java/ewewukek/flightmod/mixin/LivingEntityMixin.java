@@ -1,11 +1,11 @@
-package ewewukek.flymod.mixin;
+package ewewukek.flightmod.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-import ewewukek.flymod.Config;
-import ewewukek.flymod.FlyMod;
+import ewewukek.flightmod.Config;
+import ewewukek.flightmod.FlightMod;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
@@ -24,7 +24,7 @@ public class LivingEntityMixin {
     void travel(LivingEntity entity, Vec3d input) {
         final float deg2rad = (float)(Math.PI / 180);
 
-        if (FlyMod.shouldExecute(entity) && input.lengthSquared() > 1e-7) {
+        if (FlightMod.shouldExecute(entity) && input.lengthSquared() > 1e-7) {
             ClientPlayerEntity player = (ClientPlayerEntity)entity;
 
             float flyingSpeed = player.abilities.getFlySpeed() * (player.isSprinting() ? 2 : 1);
@@ -45,7 +45,7 @@ public class LivingEntityMixin {
 
                 if ((iy > 0 && -sp > y) || (iy < 0 && -sp < y)) {
                     player.setVelocity(player.getVelocity().add(0, -sp * flyingSpeed - yv, 0));
-                    FlyMod.overrideVerticalFriction = true;
+                    FlightMod.overrideVerticalFriction = true;
                     inputZ = cp;
                 } else {
                     inputZ = f / vl;
