@@ -9,6 +9,11 @@
   ],
   "license": "MIT",
   "environment": "client",
+  "entrypoints": {
+    "client": [
+      "ewewukek.flymod.FlyMod"
+    ]
+  },
   "mixins": [
     "flymod.mixins.json"
   ],

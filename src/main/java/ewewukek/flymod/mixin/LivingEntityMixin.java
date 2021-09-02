@@ -4,6 +4,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
+import ewewukek.flymod.Config;
 import ewewukek.flymod.FlyMod;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.LivingEntity;
@@ -31,7 +32,7 @@ public class LivingEntityMixin {
             float cp = MathHelper.cos(deg2rad * player.pitch);
             float sp = MathHelper.sin(deg2rad * player.pitch);
 
-            if (!FlyMod.conservativeMode) {
+            if (!Config.conservativeMode) {
                 int iy = 0;
                 if (player.input.jumping) iy++;
                 if (player.input.sneaking) iy--;
