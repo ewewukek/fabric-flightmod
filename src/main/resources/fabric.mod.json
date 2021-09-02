@@ -12,6 +12,9 @@
   "entrypoints": {
     "client": [
       "ewewukek.flightmod.FlightMod"
+    ],
+    "modmenu": [
+      "ewewukek.flightmod.ModMenuConfigScreen"
     ]
   },
   "mixins": [

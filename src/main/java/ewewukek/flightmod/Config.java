@@ -55,7 +55,7 @@ public class Config {
         }
     }
 
-    private static void save() {
+    public static void save() {
         try (BufferedWriter writer = Files.newBufferedWriter(FlightMod.CONFIG_PATH)) {
             writer.write("conservativeMode = " + conservativeMode + "\n");
 

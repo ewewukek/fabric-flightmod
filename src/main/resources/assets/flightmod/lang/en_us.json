@@ -1,0 +1,7 @@
+{
+  "flightmod.options.title": "Create Flight Mod options",
+  "flightmod.options.conservative_mode.on": "Conservative mode: Enabled",
+  "flightmod.options.conservative_mode.off": "Conservative mode: Disabled",
+  "flightmod.options.conservative_mode.on.description": "Only horizontal velocity is adjusted.",
+  "flightmod.options.conservative_mode.off.description": "Move at full speed in any direction."
+}
