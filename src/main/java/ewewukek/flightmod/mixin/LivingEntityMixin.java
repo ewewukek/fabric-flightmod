@@ -47,23 +47,26 @@ public class LivingEntityMixin {
             float flySpeed = player.abilities.getFlySpeed();
             float speed = flySpeed * (player.isSprinting() ? 2 : 1);
 
+            // current horizontal speed
             double f = v.dotProduct(Vec3d.fromPolar(0, player.yaw));
+            // length of target velocity
             double l = Math.abs(v.y / sp);
 
             if (!Config.conservativeMode) {
                 int iy = 0;
                 if (player.input.jumping) iy++;
                 if (player.input.sneaking) iy--;
+
                 // vanilla vertical acceleration
                 double a = iy * 3 * flySpeed;
                 // vanilla max vertical velocity
                 double vyMax = a * (1 + 0.6 / 0.4);
-                // next tick velocity
+                // vanilla vertical velocity on next tick
                 double vyNext = v.y * 0.6 + a;
 
-                // alternative acceleration
+                // alternative vertical acceleration
                 double a2 = -sp * speed;
-                // alternative next tick velocity
+                // alternative vertical velocity on next tick
                 double vy2Next = v.y * 0.91 + a2;
 
                 if (Math.abs(vy2Next) > Math.abs(vyNext)) {
@@ -76,6 +79,7 @@ public class LivingEntityMixin {
                 }
             }
 
+            // target horizontal speed
             double t = l * cp;
             double z = (t - f) / speed;
             double maxZ = Math.abs(input.z);
