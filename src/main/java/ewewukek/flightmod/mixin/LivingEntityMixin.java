@@ -47,7 +47,7 @@ public class LivingEntityMixin {
             float flySpeed = player.abilities.getFlySpeed();
             float speed = flySpeed * (player.isSprinting() ? 2 : 1);
 
-            // current horizontal speed
+            // current forward speed
             double f = v.dotProduct(Vec3d.fromPolar(0, player.yaw));
             // length of target velocity
             double l = Math.abs(v.y / sp);
@@ -79,11 +79,23 @@ public class LivingEntityMixin {
                 }
             }
 
-            // target horizontal speed
+            // target forward speed
             double t = l * cp;
-            double z = (t - f) / speed;
             double maxZ = Math.abs(input.z);
-            input = new Vec3d(input.x, input.y, MathHelper.clamp(z, -maxZ, maxZ));
+            double z = MathHelper.clamp((t - f) / speed, -maxZ, maxZ);
+
+            // compensate side inertia
+            double x;
+            if (Math.abs(input.x) < 0.5) {
+                // current side speed
+                double s = v.dotProduct(Vec3d.fromPolar(0, player.yaw - 90));
+                double maxX = Math.min(0.98, Math.sqrt(1 - z * z));
+                x = MathHelper.clamp(-s / speed, -maxX, maxX);
+            } else {
+                x = input.x;
+            }
+
+            input = new Vec3d(x, input.y, z);
         }
 
         return input;
