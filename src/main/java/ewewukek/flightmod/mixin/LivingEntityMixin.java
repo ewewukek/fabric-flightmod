@@ -28,6 +28,7 @@ public class LivingEntityMixin {
             ClientPlayerEntity player = (ClientPlayerEntity)entity;
 
             float flyingSpeed = player.abilities.getFlySpeed() * (player.isSprinting() ? 2 : 1);
+            if (input.lengthSquared() > 1) input = input.normalize();
 
             float cp = MathHelper.cos(deg2rad * player.pitch);
             float sp = MathHelper.sin(deg2rad * player.pitch);
@@ -59,7 +60,8 @@ public class LivingEntityMixin {
                     double l = Math.abs(v.y / sp);
                     double t = l * cp;
                     double z = (t - f) / flyingSpeed;
-                    input = new Vec3d(input.x, input.y, MathHelper.clamp(z, -1, 1));
+                    double maxZ = Math.abs(input.z);
+                    input = new Vec3d(input.x, input.y, MathHelper.clamp(z, -maxZ, maxZ));
                 }
             }
         }
