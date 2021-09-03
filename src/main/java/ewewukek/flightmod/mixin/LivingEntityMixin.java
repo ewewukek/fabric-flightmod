@@ -23,7 +23,10 @@ public class LivingEntityMixin {
     )
     private void travel(LivingEntity entity, Vec3d input) {
         if (entity instanceof ClientPlayerEntity) {
-            input = transformInput((ClientPlayerEntity)entity, input);
+            ClientPlayerEntity player = (ClientPlayerEntity)entity;
+            if (player.abilities.flying) {
+                input = transformInput((ClientPlayerEntity)entity, input);
+            }
         }
         entity.travel(input);
     }
@@ -31,32 +34,33 @@ public class LivingEntityMixin {
     private static Vec3d transformInput(ClientPlayerEntity player, Vec3d input) {
         final float deg2rad = (float)(Math.PI / 180);
 
+        float flySpeed = player.abilities.getFlySpeed();
+        float speed = flySpeed * (player.isSprinting() ? 2 : 1);
+
+        Vec3d v = player.getVelocity();
+        // current forward speed
+        double f = v.dotProduct(Vec3d.fromPolar(0, player.yaw));
+        // current side speed
+        double s = v.dotProduct(Vec3d.fromPolar(0, player.yaw - 90));
+
+        int iy = 0;
+        if (player.input.jumping) iy++;
+        if (player.input.sneaking) iy--;
+
+        if (input.lengthSquared() > 1) input = input.normalize();
+        double x = input.x;
+        double z = input.z;
+
         float cp = MathHelper.cos(deg2rad * player.pitch);
         float sp = MathHelper.sin(deg2rad * player.pitch);
-        Vec3d v = player.getVelocity();
 
-        boolean shouldApply = player.abilities.flying && player.input.pressingForward
-            && input.lengthSquared() > 1e-7 && (
-                player.input.jumping && player.pitch < -1e-3
-                || player.input.sneaking && player.pitch > 1e-3
-            );
-
-        if (shouldApply) {
-            if (input.lengthSquared() > 1) input = input.normalize();
-
-            float flySpeed = player.abilities.getFlySpeed();
-            float speed = flySpeed * (player.isSprinting() ? 2 : 1);
-
-            // current forward speed
-            double f = v.dotProduct(Vec3d.fromPolar(0, player.yaw));
+        if (z > 0.5 && (iy > 0 && -sp > 1e-3 || iy < 0 && -sp < 1e-3)) {
             // length of target velocity
             double l = Math.abs(v.y / sp);
+            // target forward speed
+            double t = l * cp;
 
             if (!Config.vanillaVerticalVelocity) {
-                int iy = 0;
-                if (player.input.jumping) iy++;
-                if (player.input.sneaking) iy--;
-
                 // vanilla vertical acceleration
                 double a = iy * 3 * flySpeed;
                 // vanilla max vertical velocity
@@ -74,30 +78,27 @@ public class LivingEntityMixin {
                         double vy = v.y - a + a2;
                         player.setVelocity(v.x, vy, v.z);
                         l = Math.abs(vy / sp);
+                        t = l * cp;
                     }
                     FlightMod.overrideVanillaFriction = true;
                 }
             }
 
-            // target forward speed
-            double t = l * cp;
-            double maxZ = Math.abs(input.z);
-            double z = MathHelper.clamp((t - f) / speed, -maxZ, maxZ);
+            double maxZ = Math.abs(z);
+            z = MathHelper.clamp((t - f) / speed, -maxZ, maxZ);
 
-            // compensate side inertia
-            double x;
-            if (Math.abs(input.x) < 0.5) {
-                // current side speed
-                double s = v.dotProduct(Vec3d.fromPolar(0, player.yaw - 90));
-                double maxX = Math.min(0.98, Math.sqrt(1 - z * z));
-                x = MathHelper.clamp(-s / speed, -maxX, maxX);
-            } else {
-                x = input.x;
-            }
-
-            input = new Vec3d(x, input.y, z);
+        } else if (Math.abs(z) < 0.5) {
+            // compensate forward inertia
+            double maxZ = Math.min(0.98, Math.sqrt(1 - x * x));
+            z = MathHelper.clamp(-f / speed, -maxZ, maxZ);
         }
 
-        return input;
+        if (Math.abs(x) < 0.5) {
+            // compensate side inertia
+            double maxX = Math.min(0.98, Math.sqrt(1 - z * z));
+            x = MathHelper.clamp(-s / speed, -maxX, maxX);
+        }
+
+        return new Vec3d(x, input.y, z);
     }
 }
