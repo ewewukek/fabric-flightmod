@@ -3,7 +3,6 @@ package ewewukek.flightmod;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 
-import net.minecraft.client.font.MultilineText;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ScreenTexts;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -27,8 +26,6 @@ public class ModMenuConfigScreen implements ModMenuApi {
         public static final Text VENILLA_VERTICAL_VELOCITY_OFF = new TranslatableText("flightmod.options.vanilla_vertical_velocity.off");
 
         private Screen parent;
-        private MultilineText vanillaVerticalVelocityOnDescription = MultilineText.EMPTY;
-        private MultilineText vanillaVerticalVelocityOffDescription = MultilineText.EMPTY;
 
         public ConfigScreen(Screen parent) {
             super(TITLE);
@@ -50,21 +47,12 @@ public class ModMenuConfigScreen implements ModMenuApi {
                 Config.save();
                 onClose();
             }));
-            vanillaVerticalVelocityOnDescription = MultilineText.create(textRenderer,
-                new TranslatableText("flightmod.options.vanilla_vertical_velocity.on.description"), width - 50);
-            vanillaVerticalVelocityOffDescription = MultilineText.create(textRenderer,
-                new TranslatableText("flightmod.options.vanilla_vertical_velocity.off.description"), width - 50);
         }
 
         @Override
         public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
             renderBackground(matrices);
             drawCenteredText(matrices, textRenderer, title, width / 2, 10, 0xffffff);
-            if (Config.vanillaVerticalVelocity) {
-                vanillaVerticalVelocityOnDescription.drawCenterWithShadow(matrices, width / 2, height / 2 + 5);
-            } else {
-                vanillaVerticalVelocityOffDescription.drawCenterWithShadow(matrices, width / 2, height / 2 + 5);
-            }
             super.render(matrices, mouseX, mouseY, delta);
         }
 
