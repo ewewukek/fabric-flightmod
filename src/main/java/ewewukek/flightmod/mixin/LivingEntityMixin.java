@@ -46,7 +46,6 @@ public class LivingEntityMixin {
 
             float flySpeed = player.abilities.getFlySpeed();
             float speed = flySpeed * (player.isSprinting() ? 2 : 1);
-            double maxSpeed = speed * 0.91 / 0.09;
 
             double f = v.dotProduct(Vec3d.fromPolar(0, player.yaw));
             double l = Math.abs(v.y / sp);
@@ -55,10 +54,26 @@ public class LivingEntityMixin {
                 int iy = 0;
                 if (player.input.jumping) iy++;
                 if (player.input.sneaking) iy--;
-                double vy = v.y - sp * speed - iy * 3 * flySpeed;
-                player.setVelocity(v.x, vy, v.z);
-                FlightMod.overrideVerticalFriction = true;
-                l = Math.abs(vy / sp);
+                // vanilla vertical acceleration
+                double a = iy * 3 * flySpeed;
+                // vanilla max vertical velocity
+                double vyMax = a * (1 + 0.6 / 0.4);
+                // next tick velocity
+                double vyNext = v.y * 0.6 + a;
+
+                // alternative acceleration
+                double a2 = -sp * speed;
+                // alternative next tick velocity
+                double vy2Next = v.y * 0.91 + a2;
+
+                if (Math.abs(vy2Next) > Math.abs(vyNext)) {
+                    if (Math.abs(vy2Next) > Math.abs(vyMax)) {
+                        double vy = v.y - a + a2;
+                        player.setVelocity(v.x, vy, v.z);
+                        l = Math.abs(vy / sp);
+                    }
+                    FlightMod.overrideVerticalFriction = true;
+                }
             }
 
             double t = l * cp;
