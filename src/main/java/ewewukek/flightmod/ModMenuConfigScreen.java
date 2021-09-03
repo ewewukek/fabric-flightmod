@@ -39,20 +39,20 @@ public class ModMenuConfigScreen implements ModMenuApi {
             super.init();
             addButton(new ButtonWidget(
                 width / 2 - 100, height / 2 - 25, 200, 20,
+                new TranslatableText("flightmod.options.mode." + Config.mode),
+                (button) -> {
+                    Config.mode = Config.mode.next();
+                    button.setMessage(new TranslatableText("flightmod.options.mode." + Config.mode));
+                }
+            ));
+            addButton(new ButtonWidget(
+                width / 2 - 100, height / 2 + 5, 200, 20,
                 Config.compensateInertia ? COMPENSATE_INERTIA_ON : COMPENSATE_INERTIA_OFF,
                     (button) -> {
                         Config.compensateInertia = !Config.compensateInertia;
                         button.setMessage(Config.compensateInertia ? COMPENSATE_INERTIA_ON : COMPENSATE_INERTIA_OFF);
                     }
                 ));
-            addButton(new ButtonWidget(
-                width / 2 - 100, height / 2 + 5, 200, 20,
-                Config.vanillaVerticalVelocity ? VANILLA_VERTICAL_VELOCITY_ON : VANILLA_VERTICAL_VELOCITY_OFF,
-                (button) -> {
-                    Config.vanillaVerticalVelocity = !Config.vanillaVerticalVelocity;
-                    button.setMessage(Config.vanillaVerticalVelocity ? VANILLA_VERTICAL_VELOCITY_ON : VANILLA_VERTICAL_VELOCITY_OFF);
-                }
-            ));
             addButton(new ButtonWidget(width / 2 - 75, height - 30, 150, 20, ScreenTexts.DONE, (button) -> {
                 Config.save();
                 onClose();
