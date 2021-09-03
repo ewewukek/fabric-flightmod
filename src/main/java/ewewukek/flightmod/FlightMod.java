@@ -10,7 +10,7 @@ import net.minecraft.entity.LivingEntity;
 public class FlightMod implements ClientModInitializer {
     public static final Path CONFIG_PATH = FabricLoader.getInstance().getConfigDir().resolve("flightmod.txt");
 
-    public static boolean overrideVerticalFriction;
+    public static boolean overrideVanillaFriction;
 
     @Override
     public void onInitializeClient() {

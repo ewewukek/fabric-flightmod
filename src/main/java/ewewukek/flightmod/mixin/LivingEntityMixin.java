@@ -72,7 +72,7 @@ public class LivingEntityMixin {
                         player.setVelocity(v.x, vy, v.z);
                         l = Math.abs(vy / sp);
                     }
-                    FlightMod.overrideVerticalFriction = true;
+                    FlightMod.overrideVanillaFriction = true;
                 }
             }
 

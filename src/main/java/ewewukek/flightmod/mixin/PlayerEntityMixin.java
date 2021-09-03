@@ -19,8 +19,8 @@ public class PlayerEntityMixin {
         )
     )
     private void setVelocity(PlayerEntity player, double x, double y, double z) {
-        if (FlightMod.overrideVerticalFriction && player instanceof ClientPlayerEntity) {
-            FlightMod.overrideVerticalFriction = false;
+        if (FlightMod.overrideVanillaFriction && player instanceof ClientPlayerEntity) {
+            FlightMod.overrideVanillaFriction = false;
             y = y / 0.6 * 0.91;
         }
         player.setVelocity(x, y, z);
