@@ -22,8 +22,10 @@ public class ModMenuConfigScreen implements ModMenuApi {
 
     public static class ConfigScreen extends Screen {
         public static final Text TITLE = new TranslatableText("flightmod.options.title");
+        public static final Text COMPENSATE_INERTIA_ON = new TranslatableText("flightmod.options.compensate_inertia.on");
+        public static final Text COMPENSATE_INERTIA_OFF = new TranslatableText("flightmod.options.compensate_inertia.off");
         public static final Text VANILLA_VERTICAL_VELOCITY_ON = new TranslatableText("flightmod.options.vanilla_vertical_velocity.on");
-        public static final Text VENILLA_VERTICAL_VELOCITY_OFF = new TranslatableText("flightmod.options.vanilla_vertical_velocity.off");
+        public static final Text VANILLA_VERTICAL_VELOCITY_OFF = new TranslatableText("flightmod.options.vanilla_vertical_velocity.off");
 
         private Screen parent;
 
@@ -37,10 +39,18 @@ public class ModMenuConfigScreen implements ModMenuApi {
             super.init();
             addButton(new ButtonWidget(
                 width / 2 - 100, height / 2 - 25, 200, 20,
-                Config.vanillaVerticalVelocity ? VANILLA_VERTICAL_VELOCITY_ON : VENILLA_VERTICAL_VELOCITY_OFF,
+                Config.compensateInertia ? COMPENSATE_INERTIA_ON : COMPENSATE_INERTIA_OFF,
+                    (button) -> {
+                        Config.compensateInertia = !Config.compensateInertia;
+                        button.setMessage(Config.compensateInertia ? COMPENSATE_INERTIA_ON : COMPENSATE_INERTIA_OFF);
+                    }
+                ));
+            addButton(new ButtonWidget(
+                width / 2 - 100, height / 2 + 5, 200, 20,
+                Config.vanillaVerticalVelocity ? VANILLA_VERTICAL_VELOCITY_ON : VANILLA_VERTICAL_VELOCITY_OFF,
                 (button) -> {
                     Config.vanillaVerticalVelocity = !Config.vanillaVerticalVelocity;
-                    button.setMessage(Config.vanillaVerticalVelocity ? VANILLA_VERTICAL_VELOCITY_ON : VENILLA_VERTICAL_VELOCITY_OFF);
+                    button.setMessage(Config.vanillaVerticalVelocity ? VANILLA_VERTICAL_VELOCITY_ON : VANILLA_VERTICAL_VELOCITY_OFF);
                 }
             ));
             addButton(new ButtonWidget(width / 2 - 75, height - 30, 150, 20, ScreenTexts.DONE, (button) -> {

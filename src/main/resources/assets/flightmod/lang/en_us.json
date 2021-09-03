@@ -1,5 +1,7 @@
 {
   "flightmod.options.title": "Create Flight Mod options",
+  "flightmod.options.compensate_inertia.on": "Compensate inertia: Enabled",
+  "flightmod.options.compensate_inertia.off": "Compensate inertia: Disabled",
   "flightmod.options.vanilla_vertical_velocity.on": "Vanilla Vertical Velocity: Enabled",
   "flightmod.options.vanilla_vertical_velocity.off": "Vanilla Vertical Velocity: Disabled"
 }
