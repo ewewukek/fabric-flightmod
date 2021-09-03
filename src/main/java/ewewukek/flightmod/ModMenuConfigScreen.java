@@ -39,7 +39,7 @@ public class ModMenuConfigScreen implements ModMenuApi {
         public void init() {
             super.init();
             addButton(new ButtonWidget(
-                width / 2 - 75, 30, 150, 20,
+                width / 2 - 100, height / 2 - 25, 200, 20,
                 Config.vanillaVerticalVelocity ? VANILLA_VERTICAL_VELOCITY_ON : VENILLA_VERTICAL_VELOCITY_OFF,
                 (button) -> {
                     Config.vanillaVerticalVelocity = !Config.vanillaVerticalVelocity;
@@ -61,9 +61,9 @@ public class ModMenuConfigScreen implements ModMenuApi {
             renderBackground(matrices);
             drawCenteredText(matrices, textRenderer, title, width / 2, 10, 0xffffff);
             if (Config.vanillaVerticalVelocity) {
-                vanillaVerticalVelocityOnDescription.drawCenterWithShadow(matrices, width / 2, 60);
+                vanillaVerticalVelocityOnDescription.drawCenterWithShadow(matrices, width / 2, height / 2 + 5);
             } else {
-                vanillaVerticalVelocityOffDescription.drawCenterWithShadow(matrices, width / 2, 60);
+                vanillaVerticalVelocityOffDescription.drawCenterWithShadow(matrices, width / 2, height / 2 + 5);
             }
             super.render(matrices, mouseX, mouseY, delta);
         }
