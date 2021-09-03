@@ -39,21 +39,12 @@ public class Config {
                     if (!s.hasNext()) throw new IOException("expected value");
                     String value = s.next().trim();
 
-                    boolean boolValue = false;
-                    if (value.equals("true")) {
-                        vanillaVerticalVelocity = true;
-                    } else if (value.equals("false")) {
-                        vanillaVerticalVelocity = false;
-                    } else {
-                        throw new IOException("invalid boolean value: " + value);
-                    }
-
                     switch (key) {
                     case "compensateInertia":
-                        compensateInertia = boolValue;
+                        compensateInertia = readBoolean(value);
                         break;
                     case "vanillaVerticalVelocity":
-                        vanillaVerticalVelocity = boolValue;
+                        vanillaVerticalVelocity = readBoolean(value);
                         break;
                     default:
                         throw new IOException("unrecognized field: " + key);
@@ -77,5 +68,15 @@ public class Config {
         } catch (IOException e) {
             logger.warn("Could not save configuration file: ", e);
         }
+    }
+
+    public static boolean readBoolean(String value) throws IOException {
+        if (value.equals("true")) {
+            return true;
+        } else if (value.equals("false")) {
+            return false;
+        }
+
+        throw new IOException("invalid boolean value: " + value);
     }
 }
