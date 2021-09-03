@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 public class Config {
     private static final Logger logger = LogManager.getLogger(FlightMod.class);
 
-    public static boolean conservativeMode = true;
+    public static boolean vanillaVerticalVelocity = true;
 
     public static void load() {
         try (BufferedReader reader = Files.newBufferedReader(FlightMod.CONFIG_PATH)) {
@@ -28,17 +28,17 @@ public class Config {
                 if (!s.hasNext()) throw new IOException("expected field name");
 
                 String key = s.next().trim();
-                if (!key.equals("conservativeMode")) throw new IOException("unrecognized field name: " + key);
+                if (!key.equals("vanillaVerticalVelocity")) throw new IOException("unrecognized field name: " + key);
 
                 if (!s.hasNext()) throw new IOException("expected value");
                 String value = s.next().trim();
 
                 switch(value) {
                 case "true":
-                    conservativeMode = true;
+                    vanillaVerticalVelocity = true;
                     break;
                 case "false":
-                    conservativeMode = false;
+                    vanillaVerticalVelocity = false;
                     break;
                 default:
                     throw new IOException("invalid boolean value: " + value);
@@ -57,7 +57,7 @@ public class Config {
 
     public static void save() {
         try (BufferedWriter writer = Files.newBufferedWriter(FlightMod.CONFIG_PATH)) {
-            writer.write("conservativeMode = " + conservativeMode + "\n");
+            writer.write("vanillaVerticalVelocity = " + vanillaVerticalVelocity + "\n");
 
         } catch (IOException e) {
             logger.warn("Could not save configuration file: ", e);

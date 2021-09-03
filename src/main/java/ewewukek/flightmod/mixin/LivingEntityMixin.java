@@ -52,7 +52,7 @@ public class LivingEntityMixin {
             // length of target velocity
             double l = Math.abs(v.y / sp);
 
-            if (!Config.conservativeMode) {
+            if (!Config.vanillaVerticalVelocity) {
                 int iy = 0;
                 if (player.input.jumping) iy++;
                 if (player.input.sneaking) iy--;

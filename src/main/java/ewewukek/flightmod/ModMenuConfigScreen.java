@@ -23,12 +23,12 @@ public class ModMenuConfigScreen implements ModMenuApi {
 
     public static class ConfigScreen extends Screen {
         public static final Text TITLE = new TranslatableText("flightmod.options.title");
-        public static final Text CONSERVATIVE_MODE_ON = new TranslatableText("flightmod.options.conservative_mode.on");
-        public static final Text CONSERVATIVE_MODE_OFF = new TranslatableText("flightmod.options.conservative_mode.off");
+        public static final Text VANILLA_VERTICAL_VELOCITY_ON = new TranslatableText("flightmod.options.vanilla_vertical_velocity.on");
+        public static final Text VENILLA_VERTICAL_VELOCITY_OFF = new TranslatableText("flightmod.options.vanilla_vertical_velocity.off");
 
         private Screen parent;
-        private MultilineText conservativeModeOnDescription = MultilineText.EMPTY;
-        private MultilineText conservativeModeOffDescription = MultilineText.EMPTY;
+        private MultilineText vanillaVerticalVelocityOnDescription = MultilineText.EMPTY;
+        private MultilineText vanillaVerticalVelocityOffDescription = MultilineText.EMPTY;
 
         public ConfigScreen(Screen parent) {
             super(TITLE);
@@ -40,30 +40,30 @@ public class ModMenuConfigScreen implements ModMenuApi {
             super.init();
             addButton(new ButtonWidget(
                 width / 2 - 75, 30, 150, 20,
-                Config.conservativeMode ? CONSERVATIVE_MODE_ON : CONSERVATIVE_MODE_OFF,
+                Config.vanillaVerticalVelocity ? VANILLA_VERTICAL_VELOCITY_ON : VENILLA_VERTICAL_VELOCITY_OFF,
                 (button) -> {
-                    Config.conservativeMode = !Config.conservativeMode;
-                    button.setMessage(Config.conservativeMode ? CONSERVATIVE_MODE_ON : CONSERVATIVE_MODE_OFF);
+                    Config.vanillaVerticalVelocity = !Config.vanillaVerticalVelocity;
+                    button.setMessage(Config.vanillaVerticalVelocity ? VANILLA_VERTICAL_VELOCITY_ON : VENILLA_VERTICAL_VELOCITY_OFF);
                 }
             ));
             addButton(new ButtonWidget(width / 2 - 75, height - 30, 150, 20, ScreenTexts.DONE, (button) -> {
                 Config.save();
                 onClose();
             }));
-            conservativeModeOnDescription = MultilineText.create(textRenderer,
-                new TranslatableText("flightmod.options.conservative_mode.on.description"), width - 50);
-            conservativeModeOffDescription = MultilineText.create(textRenderer,
-                new TranslatableText("flightmod.options.conservative_mode.off.description"), width - 50);
+            vanillaVerticalVelocityOnDescription = MultilineText.create(textRenderer,
+                new TranslatableText("flightmod.options.vanilla_vertical_velocity.on.description"), width - 50);
+            vanillaVerticalVelocityOffDescription = MultilineText.create(textRenderer,
+                new TranslatableText("flightmod.options.vanilla_vertical_velocity.off.description"), width - 50);
         }
 
         @Override
         public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
             renderBackground(matrices);
             drawCenteredText(matrices, textRenderer, title, width / 2, 10, 0xffffff);
-            if (Config.conservativeMode) {
-                conservativeModeOnDescription.drawCenterWithShadow(matrices, width / 2, 60);
+            if (Config.vanillaVerticalVelocity) {
+                vanillaVerticalVelocityOnDescription.drawCenterWithShadow(matrices, width / 2, 60);
             } else {
-                conservativeModeOffDescription.drawCenterWithShadow(matrices, width / 2, 60);
+                vanillaVerticalVelocityOffDescription.drawCenterWithShadow(matrices, width / 2, 60);
             }
             super.render(matrices, mouseX, mouseY, delta);
         }
