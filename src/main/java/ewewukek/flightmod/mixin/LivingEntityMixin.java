@@ -21,50 +21,52 @@ public class LivingEntityMixin {
             ordinal = 0
         )
     )
-    void travel(LivingEntity entity, Vec3d input) {
+    private void travel(LivingEntity entity, Vec3d input) {
+        if (entity instanceof ClientPlayerEntity) {
+            input = transformInput((ClientPlayerEntity)entity, input);
+        }
+        entity.travel(input);
+    }
+
+    private static Vec3d transformInput(ClientPlayerEntity player, Vec3d input) {
         final float deg2rad = (float)(Math.PI / 180);
 
-        if (FlightMod.shouldExecute(entity) && input.lengthSquared() > 1e-7) {
-            ClientPlayerEntity player = (ClientPlayerEntity)entity;
+        float cp = MathHelper.cos(deg2rad * player.pitch);
+        float sp = MathHelper.sin(deg2rad * player.pitch);
+        Vec3d v = player.getVelocity();
 
-            float flyingSpeed = player.abilities.getFlySpeed() * (player.isSprinting() ? 2 : 1);
+        boolean shouldApply = player.abilities.flying && player.input.pressingForward
+            && input.lengthSquared() > 1e-7 && (
+                player.input.jumping && player.pitch < -1e-3
+                || player.input.sneaking && player.pitch > 1e-3
+            );
+
+        if (shouldApply) {
             if (input.lengthSquared() > 1) input = input.normalize();
 
-            float cp = MathHelper.cos(deg2rad * player.pitch);
-            float sp = MathHelper.sin(deg2rad * player.pitch);
+            float flySpeed = player.abilities.getFlySpeed();
+            float speed = flySpeed * (player.isSprinting() ? 2 : 1);
+            double maxSpeed = speed * 0.91 / 0.09;
+
+            double f = v.dotProduct(Vec3d.fromPolar(0, player.yaw));
+            double l = Math.abs(v.y / sp);
 
             if (!Config.conservativeMode) {
                 int iy = 0;
                 if (player.input.jumping) iy++;
                 if (player.input.sneaking) iy--;
-
-                double f = input.z * flyingSpeed;
-                double yv = iy * 3 * player.abilities.getFlySpeed();
-                double vl = Math.sqrt(f * f + yv * yv);
-                double y = yv / vl;
-                double inputZ;
-
-                if ((iy > 0 && -sp > y) || (iy < 0 && -sp < y)) {
-                    player.setVelocity(player.getVelocity().add(0, -sp * flyingSpeed - yv, 0));
-                    FlightMod.overrideVerticalFriction = true;
-                    inputZ = cp;
-                } else {
-                    inputZ = f / vl;
-                }
-                input = new Vec3d(input.x, input.y, inputZ);
-
-            } else if (Math.abs(sp) > 1e-3) {
-                Vec3d v = player.getVelocity();
-                if (Math.abs(v.y) > 0.003) {
-                    double f = v.dotProduct(Vec3d.fromPolar(0, player.yaw)) + input.z * flyingSpeed;
-                    double l = Math.abs(v.y / sp);
-                    double t = l * cp;
-                    double z = (t - f) / flyingSpeed;
-                    double maxZ = Math.abs(input.z);
-                    input = new Vec3d(input.x, input.y, MathHelper.clamp(z, -maxZ, maxZ));
-                }
+                double vy = v.y - sp * speed - iy * 3 * flySpeed;
+                player.setVelocity(v.x, vy, v.z);
+                FlightMod.overrideVerticalFriction = true;
+                l = Math.abs(vy / sp);
             }
+
+            double t = l * cp;
+            double z = (t - f) / speed;
+            double maxZ = Math.abs(input.z);
+            input = new Vec3d(input.x, input.y, MathHelper.clamp(z, -maxZ, maxZ));
         }
-        entity.travel(input);
+
+        return input;
     }
 }

@@ -5,6 +5,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 import ewewukek.flightmod.FlightMod;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
 @Mixin(PlayerEntity.class)
@@ -18,7 +19,7 @@ public class PlayerEntityMixin {
         )
     )
     private void setVelocity(PlayerEntity player, double x, double y, double z) {
-        if (FlightMod.overrideVerticalFriction && FlightMod.shouldExecute(player)) {
+        if (FlightMod.overrideVerticalFriction && player instanceof ClientPlayerEntity) {
             FlightMod.overrideVerticalFriction = false;
             y = y / 0.6 * 0.91;
         }
