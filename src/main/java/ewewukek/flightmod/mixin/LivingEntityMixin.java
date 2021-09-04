@@ -54,7 +54,7 @@ public class LivingEntityMixin {
         float cp = MathHelper.cos(deg2rad * player.pitch);
         float sp = MathHelper.sin(deg2rad * player.pitch);
 
-        if (Config.mode.enabled() && z > 0.5 && (iy > 0 && -sp > 1e-3 || iy < 0 && -sp < 1e-3)) {
+        if (Config.mode.enabled() && z > 0.1 && (iy > 0 && -sp > 1e-3 || iy < 0 && -sp < 1e-3)) {
             // length of target velocity
             double l = Math.abs(v.y / sp);
             // target forward speed
@@ -87,12 +87,12 @@ public class LivingEntityMixin {
             double maxZ = Math.abs(z);
             z = MathHelper.clamp((t - f) / speed, -maxZ, maxZ);
 
-        } else if (Config.compensateInertia && Math.abs(z) < 0.5) {
+        } else if (Config.compensateInertia && Math.abs(z) < 0.1) {
             double maxZ = Math.min(0.98, Math.sqrt(1 - x * x));
             z = MathHelper.clamp(-f / speed, -maxZ, maxZ);
         }
 
-        if (Config.compensateInertia && Math.abs(x) < 0.5) {
+        if (Config.compensateInertia && Math.abs(x) < 0.1) {
             double maxX = Math.min(0.98, Math.sqrt(1 - z * z));
             x = MathHelper.clamp(-s / speed, -maxX, maxX);
         }
