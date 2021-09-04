@@ -4,6 +4,7 @@
   "version": "${version}",
   "name": "Creative Flight Mod",
   "description": "More natural ascend/descend mechanics for creative flight",
+  "icon": "assets/flightmod/icon.png",
   "authors": [
     "ewewukek"
   ],
