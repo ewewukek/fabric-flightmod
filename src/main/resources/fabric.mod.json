@@ -11,9 +11,6 @@
   "license": "MIT",
   "environment": "client",
   "entrypoints": {
-    "client": [
-      "ewewukek.flightmod.FlightMod"
-    ],
     "modmenu": [
       "ewewukek.flightmod.ModMenuConfigScreen"
     ]
