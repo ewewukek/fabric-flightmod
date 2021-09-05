@@ -22,10 +22,12 @@ public class ModMenuConfigScreen implements ModMenuApi {
 
     public static class ConfigScreen extends Screen {
         public static final Text TITLE = new TranslatableText("flightmod.options.title");
-        public static final Text COMPENSATE_INERTIA_ON = new TranslatableText("flightmod.options.compensate_inertia.on");
-        public static final Text COMPENSATE_INERTIA_OFF = new TranslatableText("flightmod.options.compensate_inertia.off");
-        public static final Text AIR_JUMP_FLY_ON = new TranslatableText("flightmod.options.air_jump_fly.on");
-        public static final Text AIR_JUMP_FLY_OFF = new TranslatableText("flightmod.options.air_jump_fly.off");
+        public static final Text MOVEMENT_MODE = new TranslatableText("flightmod.options.movement_mode");
+        public static final Text INERTIA_COMPENSATION = new TranslatableText("flightmod.options.inertia_compensation");
+        public static final Text AIR_JUMP_FLY = new TranslatableText("flightmod.options.air_jump_fly");
+
+        public static final int HEIGHT_STEP = 40;
+        public static final int HEIGHT_START = (int)(-1.5 * HEIGHT_STEP);
 
         private Screen parent;
 
@@ -37,31 +39,35 @@ public class ModMenuConfigScreen implements ModMenuApi {
         @Override
         public void init() {
             super.init();
+            int x = width / 2 - 60;
+            int y = height / 2 + HEIGHT_START + 20;
             addButton(new ButtonWidget(
-                width / 2 - 100, height / 2 - 35, 200, 20,
-                new TranslatableText("flightmod.options.mode." + Config.movementMode),
+                x, y, 120, 20,
+                new TranslatableText("flightmod.options.movement_mode." + Config.movementMode),
                 (button) -> {
                     Config.movementMode = Config.movementMode.next();
-                    button.setMessage(new TranslatableText("flightmod.options.mode." + Config.movementMode));
+                    button.setMessage(new TranslatableText("flightmod.options.movement_mode." + Config.movementMode));
                 }
             ));
+            y += HEIGHT_STEP;
             addButton(new ButtonWidget(
-                width / 2 - 100, height / 2 - 10, 200, 20,
+                x, y, 120, 20,
                 new TranslatableText("flightmod.options.inertia_compensation." + Config.inertiaCompensation),
                 (button) -> {
                     Config.inertiaCompensation = Config.inertiaCompensation.next();
                     button.setMessage(new TranslatableText("flightmod.options.inertia_compensation." + Config.inertiaCompensation));
                 }
             ));
+            y += HEIGHT_STEP;
             addButton(new ButtonWidget(
-                width / 2 - 100, height / 2 + 15, 200, 20,
-                Config.airJumpFly ? AIR_JUMP_FLY_ON : AIR_JUMP_FLY_OFF,
+                x, y, 120, 20,
+                Config.airJumpFly ? ScreenTexts.ON : ScreenTexts.OFF,
                 (button) -> {
                     Config.airJumpFly = !Config.airJumpFly;
-                    button.setMessage(Config.airJumpFly ? AIR_JUMP_FLY_ON : AIR_JUMP_FLY_OFF);
+                    button.setMessage(Config.airJumpFly ? ScreenTexts.ON : ScreenTexts.OFF);
                 }
             ));
-            addButton(new ButtonWidget(width / 2 - 75, height - 30, 150, 20, ScreenTexts.DONE, (button) -> {
+            addButton(new ButtonWidget(x, height - 30, 120, 20, ScreenTexts.DONE, (button) -> {
                 Config.save();
                 onClose();
             }));
@@ -70,7 +76,14 @@ public class ModMenuConfigScreen implements ModMenuApi {
         @Override
         public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
             renderBackground(matrices);
-            drawCenteredText(matrices, textRenderer, title, width / 2, 10, 0xffffff);
+            int x = width / 2;
+            drawCenteredText(matrices, textRenderer, title, x, 10, 0xffffff);
+            int y = height / 2 + HEIGHT_START + 6;
+            drawCenteredText(matrices, textRenderer, MOVEMENT_MODE, x, y, 0xffffff);
+            y += HEIGHT_STEP;
+            drawCenteredText(matrices, textRenderer, INERTIA_COMPENSATION, x, y, 0xffffff);
+            y += HEIGHT_STEP;
+            drawCenteredText(matrices, textRenderer, AIR_JUMP_FLY, x, y, 0xffffff);
             super.render(matrices, mouseX, mouseY, delta);
         }
 

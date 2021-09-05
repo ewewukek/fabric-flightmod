@@ -1,11 +1,12 @@
 {
-  "flightmod.options.title": "Create Flight Mod options",
-  "flightmod.options.mode.vanilla": "Mode: Vanilla",
-  "flightmod.options.mode.vanilla_vertical": "Mode: Vanilla Vertical",
-  "flightmod.options.mode.full_speed": "Mode: Full Speed",
-  "flightmod.options.inertia_compensation.never": "Compensate Inertia: Never",
-  "flightmod.options.inertia_compensation.moving_forward": "Compensate Inertia: Flying Forward",
-  "flightmod.options.inertia_compensation.always": "Compensate Inertia: Always",
-  "flightmod.options.air_jump_fly.on": "Elytra-like Fly Activation: Enabled",
-  "flightmod.options.air_jump_fly.off": "Elytra-like Fly Activation: Disabled"
+  "flightmod.options.title": "Creative Flight Mod Options",
+  "flightmod.options.movement_mode": "Movement Mode",
+  "flightmod.options.movement_mode.vanilla": "Vanilla",
+  "flightmod.options.movement_mode.vanilla_vertical": "Vanilla Vertical",
+  "flightmod.options.movement_mode.full_speed": "Full Speed",
+  "flightmod.options.inertia_compensation": "Compensate Inertia",
+  "flightmod.options.inertia_compensation.never": "Never",
+  "flightmod.options.inertia_compensation.moving_forward": "Flying Forward",
+  "flightmod.options.inertia_compensation.always": "Always",
+  "flightmod.options.air_jump_fly": "Elytra-like Fly Activation"
 }
