@@ -15,7 +15,7 @@ public class Config {
     private static final Logger logger = LogManager.getLogger(FlightMod.class);
 
     public static MovementMode movementMode = MovementMode.FULL_SPEED;
-    public static boolean compensateInertia = true;
+    public static InertiaCompensationMode inertiaCompensation = InertiaCompensationMode.ALWAYS;
     public static boolean airJumpFly = true;
 
     public static void load() {
@@ -44,8 +44,8 @@ public class Config {
                     case "movementMode":
                         movementMode = MovementMode.read(value);
                         break;
-                    case "compensateInertia":
-                        compensateInertia = readBoolean(value);
+                    case "inertiaCompensationMode":
+                        inertiaCompensation = InertiaCompensationMode.read(value);
                         break;
                     case "airJumpFly":
                         airJumpFly = readBoolean(value);
@@ -67,7 +67,7 @@ public class Config {
         try (BufferedWriter writer = Files.newBufferedWriter(FlightMod.CONFIG_PATH)) {
             writer.write("version = 1\n");
             writer.write("movementMode = " + movementMode + "\n");
-            writer.write("compensateInertia = " + compensateInertia + "\n");
+            writer.write("inertiaCompensationMode = " + inertiaCompensation + "\n");
             writer.write("airJumpFly = " + airJumpFly + "\n");
 
         } catch (IOException e) {
@@ -121,6 +121,50 @@ public class Config {
 
         public boolean fullSpeed() {
             return this == FULL_SPEED;
+        }
+
+        @Override
+        public String toString() {
+            return value;
+        }
+    }
+
+    public enum InertiaCompensationMode {
+        NEVER("never"),
+        MOVING_FORWARD("moving_forward"),
+        ALWAYS("always");
+
+        private final String value;
+
+        InertiaCompensationMode(String value) {
+            this.value = value;
+        }
+
+        public static InertiaCompensationMode read(String value) throws IOException {
+            if (value.equals(NEVER.value)) return NEVER;
+            if (value.equals(MOVING_FORWARD.value)) return MOVING_FORWARD;
+            if (value.equals(ALWAYS.value)) return ALWAYS;
+            throw new IOException("invalid inertia compensation mode value: " + value);
+        }
+
+        public InertiaCompensationMode next() {
+            switch (this) {
+            case NEVER:
+                return MOVING_FORWARD;
+            case MOVING_FORWARD:
+                return ALWAYS;
+            case ALWAYS:
+                return NEVER;
+            }
+            throw new RuntimeException("invalid mode");
+        }
+
+        public boolean enabled() {
+            return this != NEVER;
+        }
+
+        public boolean always() {
+            return this == ALWAYS;
         }
 
         @Override

@@ -47,10 +47,10 @@ public class ModMenuConfigScreen implements ModMenuApi {
             ));
             addButton(new ButtonWidget(
                 width / 2 - 100, height / 2 - 10, 200, 20,
-                Config.compensateInertia ? COMPENSATE_INERTIA_ON : COMPENSATE_INERTIA_OFF,
+                new TranslatableText("flightmod.options.inertia_compensation." + Config.inertiaCompensation),
                 (button) -> {
-                    Config.compensateInertia = !Config.compensateInertia;
-                    button.setMessage(Config.compensateInertia ? COMPENSATE_INERTIA_ON : COMPENSATE_INERTIA_OFF);
+                    Config.inertiaCompensation = Config.inertiaCompensation.next();
+                    button.setMessage(new TranslatableText("flightmod.options.inertia_compensation." + Config.inertiaCompensation));
                 }
             ));
             addButton(new ButtonWidget(
