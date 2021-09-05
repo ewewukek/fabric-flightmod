@@ -54,13 +54,15 @@ public class LivingEntityMixin {
         float cp = MathHelper.cos(deg2rad * player.pitch);
         float sp = MathHelper.sin(deg2rad * player.pitch);
 
-        if (Config.mode.enabled() && z > 0.1 && (iy > 0 && -sp > 1e-3 || iy < 0 && -sp < 1e-3)) {
+        boolean isCreative = player.abilities.creativeMode;
+
+        if ((Config.mode.enabled() || isCreative) && z > 0.1 && (iy > 0 && -sp > 1e-3 || iy < 0 && -sp < 1e-3)) {
             // length of target velocity
             double l = Math.abs(v.y / sp);
             // target forward speed
             double t = l * cp;
 
-            if (Config.mode.fullSpeed()) {
+            if (Config.mode.fullSpeed() || isCreative) {
                 // vanilla vertical acceleration
                 double a = iy * 3 * flySpeed;
                 // vanilla max vertical velocity
@@ -88,7 +90,7 @@ public class LivingEntityMixin {
             z = MathHelper.clamp((t - f) / speed, -maxZ, maxZ);
         }
 
-        if (Config.compensateInertia) {
+        if (Config.compensateInertia || isCreative) {
             if (Math.abs(z) < 0.1) {
                 double maxZ = Math.min(0.98, Math.sqrt(1 - x * x));
                 z = MathHelper.clamp(-f / speed, -maxZ, maxZ);
