@@ -20,9 +20,15 @@ public class Config {
     public static String currentServer;
     public static Path configPath;
 
-    public static MovementMode movementMode = MovementMode.VANILLA;
-    public static InertiaCompensationMode inertiaCompensation = InertiaCompensationMode.NEVER;
-    public static boolean airJumpFly = false;
+    public static MovementMode movementMode;
+    public static InertiaCompensationMode inertiaCompensation;
+    public static boolean airJumpFly;
+
+    public static void setDefaults() {
+        movementMode = MovementMode.VANILLA;
+        inertiaCompensation = InertiaCompensationMode.NEVER;
+        airJumpFly = false;
+    }
 
     public static void setServer(ServerInfo server) {
         Path path;
@@ -48,6 +54,7 @@ public class Config {
     }
 
     public static void load() {
+        setDefaults();
         try (BufferedReader reader = Files.newBufferedReader(configPath)) {
             String line;
             while ((line = reader.readLine()) != null) {
