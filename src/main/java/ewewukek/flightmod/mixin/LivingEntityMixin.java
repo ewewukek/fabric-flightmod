@@ -91,13 +91,20 @@ public class LivingEntityMixin {
         }
 
         if (Config.compensateInertia || isCreative) {
-            if (Math.abs(z) < 0.1) {
+            if (Math.abs(x) < 0.1 && Math.abs(z) < 0.1) {
+                Vec3d i = new Vec3d(-s / speed, 0, -f / speed);
+                if (i.length() > 0.98) i = i.normalize().multiply(0.98);
+                x = i.x;
+                z = i.z;
+
+            } else if (Math.abs(z) < 0.1) {
                 double maxZ = Math.min(0.98, Math.sqrt(1 - x * x));
                 z = MathHelper.clamp(-f / speed, -maxZ, maxZ);
-            }
-            if (Math.abs(x) < 0.1) {
+
+            } else if (Math.abs(x) < 0.1) {
                 double maxX = Math.min(0.98, Math.sqrt(1 - z * z));
                 x = MathHelper.clamp(-s / speed, -maxX, maxX);
+
             }
         }
 
