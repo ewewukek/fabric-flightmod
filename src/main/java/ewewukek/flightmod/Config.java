@@ -14,8 +14,9 @@ import org.apache.logging.log4j.Logger;
 public class Config {
     private static final Logger logger = LogManager.getLogger(FlightMod.class);
 
-    public static boolean compensateInertia = true;
     public static Mode mode = Mode.FULL_SPEED;
+    public static boolean compensateInertia = true;
+    public static boolean airJumpFly = true;
 
     public static void load() {
         try (BufferedReader reader = Files.newBufferedReader(FlightMod.CONFIG_PATH)) {
@@ -46,6 +47,9 @@ public class Config {
                     case "compensateInertia":
                         compensateInertia = readBoolean(value);
                         break;
+                    case "airJumpFly":
+                        airJumpFly = readBoolean(value);
+                        break;
                     default:
                         throw new IOException("unrecognized field: " + key);
                     }
@@ -64,6 +68,7 @@ public class Config {
             writer.write("version = 1\n");
             writer.write("mode = " + mode + "\n");
             writer.write("compensateInertia = " + compensateInertia + "\n");
+            writer.write("airJumpFly = " + airJumpFly + "\n");
 
         } catch (IOException e) {
             logger.warn("Could not save configuration file: ", e);

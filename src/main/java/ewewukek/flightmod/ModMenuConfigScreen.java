@@ -24,8 +24,8 @@ public class ModMenuConfigScreen implements ModMenuApi {
         public static final Text TITLE = new TranslatableText("flightmod.options.title");
         public static final Text COMPENSATE_INERTIA_ON = new TranslatableText("flightmod.options.compensate_inertia.on");
         public static final Text COMPENSATE_INERTIA_OFF = new TranslatableText("flightmod.options.compensate_inertia.off");
-        public static final Text VANILLA_VERTICAL_VELOCITY_ON = new TranslatableText("flightmod.options.vanilla_vertical_velocity.on");
-        public static final Text VANILLA_VERTICAL_VELOCITY_OFF = new TranslatableText("flightmod.options.vanilla_vertical_velocity.off");
+        public static final Text AIR_JUMP_FLY_ON = new TranslatableText("flightmod.options.air_jump_fly.on");
+        public static final Text AIR_JUMP_FLY_OFF = new TranslatableText("flightmod.options.air_jump_fly.off");
 
         private Screen parent;
 
@@ -38,7 +38,7 @@ public class ModMenuConfigScreen implements ModMenuApi {
         public void init() {
             super.init();
             addButton(new ButtonWidget(
-                width / 2 - 100, height / 2 - 25, 200, 20,
+                width / 2 - 100, height / 2 - 35, 200, 20,
                 new TranslatableText("flightmod.options.mode." + Config.mode),
                 (button) -> {
                     Config.mode = Config.mode.next();
@@ -46,13 +46,21 @@ public class ModMenuConfigScreen implements ModMenuApi {
                 }
             ));
             addButton(new ButtonWidget(
-                width / 2 - 100, height / 2 + 5, 200, 20,
+                width / 2 - 100, height / 2 - 10, 200, 20,
                 Config.compensateInertia ? COMPENSATE_INERTIA_ON : COMPENSATE_INERTIA_OFF,
-                    (button) -> {
-                        Config.compensateInertia = !Config.compensateInertia;
-                        button.setMessage(Config.compensateInertia ? COMPENSATE_INERTIA_ON : COMPENSATE_INERTIA_OFF);
-                    }
-                ));
+                (button) -> {
+                    Config.compensateInertia = !Config.compensateInertia;
+                    button.setMessage(Config.compensateInertia ? COMPENSATE_INERTIA_ON : COMPENSATE_INERTIA_OFF);
+                }
+            ));
+            addButton(new ButtonWidget(
+                width / 2 - 100, height / 2 + 15, 200, 20,
+                Config.airJumpFly ? AIR_JUMP_FLY_ON : AIR_JUMP_FLY_OFF,
+                (button) -> {
+                    Config.airJumpFly = !Config.airJumpFly;
+                    button.setMessage(Config.airJumpFly ? AIR_JUMP_FLY_ON : AIR_JUMP_FLY_OFF);
+                }
+            ));
             addButton(new ButtonWidget(width / 2 - 75, height - 30, 150, 20, ScreenTexts.DONE, (button) -> {
                 Config.save();
                 onClose();

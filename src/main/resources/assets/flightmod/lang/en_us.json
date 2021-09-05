@@ -4,5 +4,7 @@
   "flightmod.options.mode.vanilla_vertical": "Mode: Vanilla Vertical",
   "flightmod.options.mode.full_speed": "Mode: Full Speed",
   "flightmod.options.compensate_inertia.on": "Compensate Inertia: Enabled",
-  "flightmod.options.compensate_inertia.off": "Compensate Inertia: Disabled"
+  "flightmod.options.compensate_inertia.off": "Compensate Inertia: Disabled",
+  "flightmod.options.air_jump_fly.on": "Elytra-like Fly Activation: Enabled",
+  "flightmod.options.air_jump_fly.off": "Elytra-like Fly Activation: Disabled"
 }

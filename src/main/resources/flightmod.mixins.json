@@ -5,7 +5,9 @@
   "compatibilityLevel": "JAVA_8",
   "client": [
     "LivingEntityMixin",
-    "PlayerEntityMixin"
+    "PlayerEntityMixin",
+    "PlayerEntityAccessor",
+    "ClientPlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
