@@ -20,9 +20,9 @@ public class Config {
     public static String currentServer;
     public static Path configPath;
 
-    public static MovementMode movementMode = MovementMode.FULL_SPEED;
-    public static InertiaCompensationMode inertiaCompensation = InertiaCompensationMode.ALWAYS;
-    public static boolean airJumpFly = true;
+    public static MovementMode movementMode = MovementMode.VANILLA;
+    public static InertiaCompensationMode inertiaCompensation = InertiaCompensationMode.NEVER;
+    public static boolean airJumpFly = false;
 
     public static void setServer(ServerInfo server) {
         Path path;
