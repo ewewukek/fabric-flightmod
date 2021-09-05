@@ -4,10 +4,10 @@ Client mod that modifies creative flight mechanics. [Download from CurseForge](h
 
 Main feature of this mod is adjusting movement so that it matches the looking direction when flying up or down. Other features are: inertia compensation and elytra-like fly activation.
 
-Movement adjustment in survival mode has three variants:
+Movement adjustment has three modes:
 
-- vanilla - no adjustment
+- vanilla - disabled
 - vanilla vertical - keep vanilla vertical speed and adjusts only horizontal movement
-- full speed (default) - move up or down at full fly speed
+- full speed - increase vertical speed to match horizontal movement (may be considered as unfair advantage on your server)
 
-Configuration menu can be accessed from [Mod Menu](https://www.curseforge.com/minecraft/mc-mods/third-person-crosshair-fabric) screen. It is there for minecraft servers that have flying enabled but may consider some features of this mod cheating.
+**All features are disabled by default.** Settings are stored per-server and are accessible from [Mod Menu](https://www.curseforge.com/minecraft/mc-mods/third-person-crosshair-fabric) screen.
