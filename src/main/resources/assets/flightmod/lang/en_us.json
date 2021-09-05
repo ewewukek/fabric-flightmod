@@ -1,5 +1,7 @@
 {
-  "flightmod.options.title": "Creative Flight Mod Options",
+  "flightmod.options.title": "Creative Flight Mod",
+  "flightmod.options.for": "Settings for: %s",
+  "flightmod.options.for.singleplayer": "Singleplayer",
   "flightmod.options.movement_mode": "Movement Mode",
   "flightmod.options.movement_mode.vanilla": "Vanilla",
   "flightmod.options.movement_mode.vanilla_vertical": "Vanilla Vertical",

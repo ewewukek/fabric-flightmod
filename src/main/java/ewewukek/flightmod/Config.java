@@ -5,21 +5,50 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
 import java.util.Locale;
 import java.util.Scanner;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import net.minecraft.client.network.ServerInfo;
+
 public class Config {
     private static final Logger logger = LogManager.getLogger(FlightMod.class);
+
+    public static String currentServer;
+    public static Path configPath;
 
     public static MovementMode movementMode = MovementMode.FULL_SPEED;
     public static InertiaCompensationMode inertiaCompensation = InertiaCompensationMode.ALWAYS;
     public static boolean airJumpFly = true;
 
+    public static void setServer(ServerInfo server) {
+        Path path;
+        if (server == null || server.isLocal()) {
+            currentServer = null;
+            path = FlightMod.CONFIG_ROOT.resolve("flightmod.txt");
+        } else {
+            currentServer = server.address;
+            path = FlightMod.CONFIG_ROOT.resolve("flightmod");
+            if (!Files.exists(path)) {
+                try {
+                    Files.createDirectories(path);
+                } catch (IOException e) {
+                    logger.warn("Could not create directory: ", e);
+                }
+            }
+            path = path.resolve(currentServer + ".txt");
+        }
+        if (!path.equals(configPath)) {
+            configPath = path;
+            load();
+        }
+    }
+
     public static void load() {
-        try (BufferedReader reader = Files.newBufferedReader(FlightMod.CONFIG_PATH)) {
+        try (BufferedReader reader = Files.newBufferedReader(configPath)) {
             String line;
             while ((line = reader.readLine()) != null) {
                 int commentStart = line.indexOf('#');
@@ -64,7 +93,7 @@ public class Config {
     }
 
     public static void save() {
-        try (BufferedWriter writer = Files.newBufferedWriter(FlightMod.CONFIG_PATH)) {
+        try (BufferedWriter writer = Files.newBufferedWriter(configPath)) {
             writer.write("version = 1\n");
             writer.write("movementMode = " + movementMode + "\n");
             writer.write("inertiaCompensationMode = " + inertiaCompensation + "\n");
