@@ -86,15 +86,17 @@ public class LivingEntityMixin {
 
             double maxZ = Math.abs(z);
             z = MathHelper.clamp((t - f) / speed, -maxZ, maxZ);
-
-        } else if (Config.compensateInertia && Math.abs(z) < 0.1) {
-            double maxZ = Math.min(0.98, Math.sqrt(1 - x * x));
-            z = MathHelper.clamp(-f / speed, -maxZ, maxZ);
         }
 
-        if (Config.compensateInertia && Math.abs(x) < 0.1) {
-            double maxX = Math.min(0.98, Math.sqrt(1 - z * z));
-            x = MathHelper.clamp(-s / speed, -maxX, maxX);
+        if (Config.compensateInertia) {
+            if (Math.abs(z) < 0.1) {
+                double maxZ = Math.min(0.98, Math.sqrt(1 - x * x));
+                z = MathHelper.clamp(-f / speed, -maxZ, maxZ);
+            }
+            if (Math.abs(x) < 0.1) {
+                double maxX = Math.min(0.98, Math.sqrt(1 - z * z));
+                x = MathHelper.clamp(-s / speed, -maxX, maxX);
+            }
         }
 
         return new Vec3d(x, input.y, z);
