@@ -56,13 +56,13 @@ public class LivingEntityMixin {
 
         boolean isCreative = player.abilities.creativeMode;
 
-        if ((Config.mode.enabled() || isCreative) && z > 0.1 && (iy > 0 && -sp > 1e-3 || iy < 0 && -sp < 1e-3)) {
+        if ((Config.movementMode.enabled() || isCreative) && z > 0.1 && (iy > 0 && -sp > 1e-3 || iy < 0 && -sp < 1e-3)) {
             // length of target velocity
             double l = Math.abs(v.y / sp);
             // target forward speed
             double t = l * cp;
 
-            if (Config.mode.fullSpeed() || isCreative) {
+            if (Config.movementMode.fullSpeed() || isCreative) {
                 // vanilla vertical acceleration
                 double a = iy * 3 * flySpeed;
                 // vanilla max vertical velocity

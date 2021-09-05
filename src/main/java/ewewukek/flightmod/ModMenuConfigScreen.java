@@ -39,10 +39,10 @@ public class ModMenuConfigScreen implements ModMenuApi {
             super.init();
             addButton(new ButtonWidget(
                 width / 2 - 100, height / 2 - 35, 200, 20,
-                new TranslatableText("flightmod.options.mode." + Config.mode),
+                new TranslatableText("flightmod.options.mode." + Config.movementMode),
                 (button) -> {
-                    Config.mode = Config.mode.next();
-                    button.setMessage(new TranslatableText("flightmod.options.mode." + Config.mode));
+                    Config.movementMode = Config.movementMode.next();
+                    button.setMessage(new TranslatableText("flightmod.options.mode." + Config.movementMode));
                 }
             ));
             addButton(new ButtonWidget(

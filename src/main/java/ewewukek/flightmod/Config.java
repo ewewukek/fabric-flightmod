@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 public class Config {
     private static final Logger logger = LogManager.getLogger(FlightMod.class);
 
-    public static Mode mode = Mode.FULL_SPEED;
+    public static MovementMode movementMode = MovementMode.FULL_SPEED;
     public static boolean compensateInertia = true;
     public static boolean airJumpFly = true;
 
@@ -41,8 +41,8 @@ public class Config {
                     String value = s.next().trim();
 
                     switch (key) {
-                    case "mode":
-                        mode = Mode.read(value);
+                    case "movementMode":
+                        movementMode = MovementMode.read(value);
                         break;
                     case "compensateInertia":
                         compensateInertia = readBoolean(value);
@@ -66,7 +66,7 @@ public class Config {
     public static void save() {
         try (BufferedWriter writer = Files.newBufferedWriter(FlightMod.CONFIG_PATH)) {
             writer.write("version = 1\n");
-            writer.write("mode = " + mode + "\n");
+            writer.write("movementMode = " + movementMode + "\n");
             writer.write("compensateInertia = " + compensateInertia + "\n");
             writer.write("airJumpFly = " + airJumpFly + "\n");
 
@@ -85,25 +85,25 @@ public class Config {
         throw new IOException("invalid boolean value: " + value);
     }
 
-    public enum Mode {
+    public enum MovementMode {
         VANILLA("vanilla"),
         VANILLA_VERTICAL("vanilla_vertical"),
         FULL_SPEED("full_speed");
 
         private final String value;
 
-        Mode(String value) {
+        MovementMode(String value) {
             this.value = value;
         }
 
-        public static Mode read(String value) throws IOException {
+        public static MovementMode read(String value) throws IOException {
             if (value.equals(VANILLA.value)) return VANILLA;
             if (value.equals(VANILLA_VERTICAL.value)) return VANILLA_VERTICAL;
             if (value.equals(FULL_SPEED.value)) return FULL_SPEED;
-            throw new IOException("invalid mode value: " + value);
+            throw new IOException("invalid movement mode value: " + value);
         }
 
-        public Mode next() {
+        public MovementMode next() {
             switch (this) {
             case VANILLA:
                 return VANILLA_VERTICAL;
