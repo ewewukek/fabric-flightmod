@@ -1,5 +1,7 @@
 package ewewukek.flightmod;
 
+import java.util.function.Supplier;
+
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 
@@ -47,31 +49,22 @@ public class ModMenuConfigScreen implements ModMenuApi {
 
             int x = width / 2 - 60;
             int y = height / 2 + HEIGHT_START + 20;
-            addButton(new ButtonWidget(
+            addButton(new OptionButton(
                 x, y, 120, 20,
-                new TranslatableText("flightmod.options.movement_mode." + Config.movementMode),
-                (button) -> {
-                    Config.movementMode = Config.movementMode.next();
-                    button.setMessage(new TranslatableText("flightmod.options.movement_mode." + Config.movementMode));
-                }
+                () -> { return new TranslatableText("flightmod.options.movement_mode." + Config.movementMode); },
+                (button) -> { Config.movementMode = Config.movementMode.next(); }
             ));
             y += HEIGHT_STEP;
-            addButton(new ButtonWidget(
+            addButton(new OptionButton(
                 x, y, 120, 20,
-                new TranslatableText("flightmod.options.inertia_compensation." + Config.inertiaCompensation),
-                (button) -> {
-                    Config.inertiaCompensation = Config.inertiaCompensation.next();
-                    button.setMessage(new TranslatableText("flightmod.options.inertia_compensation." + Config.inertiaCompensation));
-                }
+                () -> { return new TranslatableText("flightmod.options.inertia_compensation." + Config.inertiaCompensation); },
+                (button) -> { Config.inertiaCompensation = Config.inertiaCompensation.next(); }
             ));
             y += HEIGHT_STEP;
-            addButton(new ButtonWidget(
+            addButton(new OptionButton(
                 x, y, 120, 20,
-                Config.airJumpFly ? ScreenTexts.ON : ScreenTexts.OFF,
-                (button) -> {
-                    Config.airJumpFly = !Config.airJumpFly;
-                    button.setMessage(Config.airJumpFly ? ScreenTexts.ON : ScreenTexts.OFF);
-                }
+                () -> { return Config.airJumpFly ? ScreenTexts.ON : ScreenTexts.OFF; },
+                (button) -> { Config.airJumpFly = !Config.airJumpFly; }
             ));
             addButton(new ButtonWidget(x, height - 30, 120, 20, ScreenTexts.DONE, (button) -> {
                 Config.save();
@@ -102,6 +95,20 @@ public class ModMenuConfigScreen implements ModMenuApi {
         @Override
         public void onClose() {
             client.openScreen(parent);
+        }
+
+        public class OptionButton extends ButtonWidget {
+            Supplier<Text> textSupplier;
+            PressAction onPress;
+
+            public OptionButton(int x, int y, int width, int height, Supplier<Text> textSupplier, PressAction onPress) {
+                super(x, y, width, height, textSupplier.get(), (button) -> {
+                    onPress.onPress(button);
+                    button.setMessage(textSupplier.get());
+                });
+                this.textSupplier = textSupplier;
+                this.onPress = onPress;
+            }
         }
     }
 }
