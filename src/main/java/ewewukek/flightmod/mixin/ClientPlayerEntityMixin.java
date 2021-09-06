@@ -36,8 +36,8 @@ public class ClientPlayerEntityMixin {
         )
     )
     private int abilityResyncCountdown(ClientPlayerEntity player) {
-        if ((Config.airJumpFly || player.abilities.creativeMode) && !player.abilities.flying
-        && !player.hasVehicle() && !player.isClimbing() && !player.isOnGround() && !player.isTouchingWater()) {
+        if (Config.airJumpFly && !player.abilities.flying && !player.isOnGround()
+        && !player.hasVehicle() && !player.isClimbing() && !player.isTouchingWater()) {
             ItemStack itemStack = player.getEquippedStack(EquipmentSlot.CHEST);
             if (itemStack.getItem() != Items.ELYTRA || !ElytraItem.isUsable(itemStack)) {
                 return 1;
