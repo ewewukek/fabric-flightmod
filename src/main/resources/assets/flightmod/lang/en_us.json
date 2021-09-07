@@ -10,5 +10,6 @@
   "flightmod.options.inertia_compensation.never": "Never",
   "flightmod.options.inertia_compensation.moving_forward": "Flying Forward",
   "flightmod.options.inertia_compensation.always": "Always",
-  "flightmod.options.air_jump_fly": "Elytra-like Fly Activation"
+  "flightmod.options.air_jump_fly": "Elytra-like Fly Activation",
+  "flightmod.options.sneak_jump_drop": "Jump while sneaking disables flight"
 }

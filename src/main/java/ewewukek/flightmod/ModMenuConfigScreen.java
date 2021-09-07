@@ -29,9 +29,10 @@ public class ModMenuConfigScreen implements ModMenuApi {
         public static final Text MOVEMENT_MODE = new TranslatableText("flightmod.options.movement_mode");
         public static final Text INERTIA_COMPENSATION = new TranslatableText("flightmod.options.inertia_compensation");
         public static final Text AIR_JUMP_FLY = new TranslatableText("flightmod.options.air_jump_fly");
+        public static final Text SNEAK_JUMP_DROP = new TranslatableText("flightmod.options.sneak_jump_drop");
 
         public static final int HEIGHT_STEP = 40;
-        public static final int HEIGHT_START = (int)(-1.5 * HEIGHT_STEP);
+        public static final int HEIGHT_START = -2 * HEIGHT_STEP;
 
         private Screen parent;
         private Text header;
@@ -66,6 +67,12 @@ public class ModMenuConfigScreen implements ModMenuApi {
                 () -> { return Config.airJumpFly ? ScreenTexts.ON : ScreenTexts.OFF; },
                 (button) -> { Config.airJumpFly = !Config.airJumpFly; }
             ));
+            y += HEIGHT_STEP;
+            addButton(new OptionButton(
+                x, y, 120, 20,
+                () -> { return Config.sneakJumpDrop ? ScreenTexts.ON : ScreenTexts.OFF; },
+                (button) -> { Config.sneakJumpDrop = !Config.sneakJumpDrop; }
+            ));
             addButton(new ButtonWidget(x, height - 30, 120, 20, ScreenTexts.DONE, (button) -> {
                 Config.save();
                 onClose();
@@ -84,6 +91,8 @@ public class ModMenuConfigScreen implements ModMenuApi {
             drawCenteredText(matrices, textRenderer, INERTIA_COMPENSATION, x, y, 0xffffff);
             y += HEIGHT_STEP;
             drawCenteredText(matrices, textRenderer, AIR_JUMP_FLY, x, y, 0xffffff);
+            y += HEIGHT_STEP;
+            drawCenteredText(matrices, textRenderer, SNEAK_JUMP_DROP, x, y, 0xffffff);
             super.render(matrices, mouseX, mouseY, delta);
         }
 

@@ -23,11 +23,13 @@ public class Config {
     public static MovementMode movementMode;
     public static InertiaCompensationMode inertiaCompensation;
     public static boolean airJumpFly;
+    public static boolean sneakJumpDrop;
 
     public static void setDefaults() {
         movementMode = MovementMode.VANILLA;
         inertiaCompensation = InertiaCompensationMode.NEVER;
         airJumpFly = false;
+        sneakJumpDrop = false;
     }
 
     public static void setServer(ServerInfo server) {
@@ -86,6 +88,9 @@ public class Config {
                     case "airJumpFly":
                         airJumpFly = readBoolean(value);
                         break;
+                    case "sneakJumpDrop":
+                        sneakJumpDrop = readBoolean(value);
+                        break;
                     default:
                         throw new IOException("unrecognized field: " + key);
                     }
@@ -105,6 +110,7 @@ public class Config {
             writer.write("movementMode = " + movementMode + "\n");
             writer.write("inertiaCompensationMode = " + inertiaCompensation + "\n");
             writer.write("airJumpFly = " + airJumpFly + "\n");
+            writer.write("sneakJumpDrop = " + sneakJumpDrop + "\n");
 
         } catch (IOException e) {
             logger.warn("Could not save configuration file: ", e);
