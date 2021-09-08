@@ -35,7 +35,8 @@ public class LivingEntityMixin {
         final float deg2rad = (float)(Math.PI / 180);
 
         float flySpeed = player.abilities.getFlySpeed();
-        float speed = flySpeed * (player.isSprinting() ? 2 : 1);
+        // "real" speed
+        double speed = 0.98 * flySpeed * (player.isSprinting() ? 2 : 1);
 
         Vec3d v = player.getVelocity();
         // current forward speed
@@ -54,17 +55,12 @@ public class LivingEntityMixin {
         float cp = MathHelper.cos(deg2rad * player.pitch);
         float sp = MathHelper.sin(deg2rad * player.pitch);
 
-        if (Config.movementMode.enabled() && z > 0.1 && (iy > 0 && -sp > 1e-3 || iy < 0 && -sp < 1e-3)) {
-            // length of target velocity
-            double l = Math.abs(v.y / sp);
-            // target forward speed
-            double t = l * cp;
-
+        if (Config.movementMode.enabled() && z > 0.1 && (iy > 0 && -sp > 1e-3 || iy < 0 && -sp < -1e-3)) {
             if (Config.movementMode.fullSpeed()) {
                 // vanilla vertical acceleration
                 double a = iy * 3 * flySpeed;
                 // vanilla max vertical velocity
-                double vyMax = a * (1 + 0.6 / 0.4);
+                double vyMax = a / (1 - 0.6);
                 // vanilla vertical velocity on next tick
                 double vyNext = v.y * 0.6 + a;
 
@@ -75,17 +71,19 @@ public class LivingEntityMixin {
 
                 if (Math.abs(vy2Next) > Math.abs(vyNext)) {
                     if (Math.abs(vy2Next) > Math.abs(vyMax)) {
-                        double vy = v.y - a + a2;
-                        player.setVelocity(v.x, vy, v.z);
-                        l = Math.abs(vy / sp);
-                        t = l * cp;
+                        v = new Vec3d(v.x, v.y - a + a2, v.z);
+                        player.setVelocity(v);
                     }
                     FlightMod.overrideVanillaFriction = true;
                 }
             }
 
-            double maxZ = Math.abs(z);
-            z = MathHelper.clamp((t - f) / speed, -maxZ, maxZ);
+            // length of target velocity
+            double l = Math.abs(v.y / sp);
+            // target forward speed
+            double t = l * cp;
+
+            z = 0.98 * MathHelper.clamp((t - f) / speed, -1, 1);
         }
 
         if (Config.inertiaCompensation.enabled()) {
