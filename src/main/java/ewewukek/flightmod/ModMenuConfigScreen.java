@@ -36,6 +36,7 @@ public class ModMenuConfigScreen implements ModMenuApi {
 
         private Screen parent;
         private Text header;
+        private OptionButton movementModeButton;
 
         public ConfigScreen(Screen parent) {
             super(TITLE);
@@ -50,7 +51,7 @@ public class ModMenuConfigScreen implements ModMenuApi {
 
             int x = width / 2 - 60;
             int y = height / 2 + HEIGHT_START + 20;
-            addButton(new OptionButton(
+            movementModeButton = addButton(new OptionButton(
                 x, y, 120, 20,
                 () -> { return new TranslatableText("flightmod.options.movement_mode." + Config.movementMode); },
                 (button) -> { Config.movementMode = Config.movementMode.next(); }
@@ -94,6 +95,11 @@ public class ModMenuConfigScreen implements ModMenuApi {
             y += HEIGHT_STEP;
             drawCenteredText(matrices, textRenderer, SNEAK_JUMP_DROP, x, y, 0xffffff);
             super.render(matrices, mouseX, mouseY, delta);
+            if (Config.currentServer != null && Config.movementMode.fullSpeed()) {
+                drawCenteredText(matrices, textRenderer, movementModeButton.getMessage(),
+                movementModeButton.x + movementModeButton.getWidth() / 2,
+                movementModeButton.y + (movementModeButton.getHeight() - 8) / 2, 0xff5555);
+            }
         }
 
         @Override
