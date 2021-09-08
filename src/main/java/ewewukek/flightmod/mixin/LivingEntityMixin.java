@@ -52,10 +52,10 @@ public class LivingEntityMixin {
         double x = input.x;
         double z = input.z;
 
-        float cp = MathHelper.cos(deg2rad * player.pitch);
-        float sp = MathHelper.sin(deg2rad * player.pitch);
+        float cp = MathHelper.cos(-player.pitch * deg2rad);
+        float sp = MathHelper.sin(-player.pitch * deg2rad);
 
-        if (Config.movementMode.enabled() && z > 0.1 && (iy > 0 && -sp > 1e-3 || iy < 0 && -sp < -1e-3)) {
+        if (Config.movementMode.enabled() && z > 0.1 && (iy > 0 && sp > 1e-3 || iy < 0 && sp < -1e-3)) {
             if (Config.movementMode.fullSpeed()) {
                 // vanilla vertical acceleration
                 double a = iy * 3 * flySpeed;
@@ -65,7 +65,7 @@ public class LivingEntityMixin {
                 double vyNext = v.y * 0.6 + a;
 
                 // alternative vertical acceleration
-                double a2 = -sp * speed;
+                double a2 = sp * speed;
                 // alternative vertical velocity on next tick
                 double vy2Next = v.y * 0.91 + a2;
 
