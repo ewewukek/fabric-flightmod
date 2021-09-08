@@ -48,9 +48,8 @@ public class LivingEntityMixin {
         if (player.input.jumping) iy++;
         if (player.input.sneaking) iy--;
 
-        if (input.lengthSquared() > 1) input = input.normalize();
-        double x = input.x;
-        double z = input.z;
+        double x = input.x / 0.98;
+        double z = input.z / 0.98;
 
         float cp = MathHelper.cos(-player.pitch * deg2rad);
         float sp = MathHelper.sin(-player.pitch * deg2rad);
@@ -83,26 +82,21 @@ public class LivingEntityMixin {
             // target forward speed
             double t = l * cp;
 
-            z = 0.98 * MathHelper.clamp((t - f) / speed, -1, 1);
+            z = (t - f) / speed;
         }
 
         if (Config.inertiaCompensation.enabled()) {
             boolean always = Config.inertiaCompensation.always();
-            if (always && Math.abs(z) < 0.1) {
-                if (Math.abs(x) < 0.1) {
-                    Vec3d i = new Vec3d(-s / speed, 0, -f / speed);
-                    if (i.length() > 0.98) i = i.normalize().multiply(0.98);
-                    x = i.x;
-                    z = i.z;
-                } else {
-                    double maxZ = Math.min(0.98, Math.sqrt(1 - x * x));
-                    z = MathHelper.clamp(-f / speed, -maxZ, maxZ);
-                }
-            } else if ((always || z > 0.5) && Math.abs(x) < 0.1) {
-                double maxX = Math.min(0.98, Math.sqrt(1 - z * z));
-                x = MathHelper.clamp(-s / speed, -maxX, maxX);
+            if (Math.abs(z) < 0.1 && always) {
+                z = -f / speed;
+            }
+            if (Math.abs(x) < 0.1 && (always || z > 0.1)) {
+                x = -s / speed;
             }
         }
+
+        x = 0.98 * MathHelper.clamp(x, -1, 1);
+        z = 0.98 * MathHelper.clamp(z, -1, 1);
 
         return new Vec3d(x, input.y, z);
     }
