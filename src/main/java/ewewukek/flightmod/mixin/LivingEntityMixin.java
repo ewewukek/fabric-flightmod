@@ -50,6 +50,7 @@ public class LivingEntityMixin {
 
         double x = input.x / 0.98;
         double z = input.z / 0.98;
+        double inputLimit = Math.max(Math.abs(x), Math.abs(z));
 
         float cp = MathHelper.cos(-player.pitch * deg2rad);
         float sp = MathHelper.sin(-player.pitch * deg2rad);
@@ -95,8 +96,8 @@ public class LivingEntityMixin {
             }
         }
 
-        x = 0.98 * MathHelper.clamp(x, -1, 1);
-        z = 0.98 * MathHelper.clamp(z, -1, 1);
+        x = 0.98 * MathHelper.clamp(x, -inputLimit, inputLimit);
+        z = 0.98 * MathHelper.clamp(z, -inputLimit, inputLimit);
 
         return new Vec3d(x, input.y, z);
     }
