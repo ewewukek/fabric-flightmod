@@ -24,7 +24,7 @@ public class LivingEntityMixin {
     private void travel(LivingEntity entity, Vec3d input) {
         if (entity instanceof ClientPlayerEntity) {
             ClientPlayerEntity player = (ClientPlayerEntity)entity;
-            if (player.abilities.flying) {
+            if (player.getAbilities().flying) {
                 input = transformInput((ClientPlayerEntity)entity, input);
             }
         }
@@ -34,15 +34,15 @@ public class LivingEntityMixin {
     private static Vec3d transformInput(ClientPlayerEntity player, Vec3d input) {
         final float deg2rad = (float)(Math.PI / 180);
 
-        float flySpeed = player.abilities.getFlySpeed();
+        float flySpeed = player.getAbilities().getFlySpeed();
         // "real" speed
         double speed = 0.98 * flySpeed * (player.isSprinting() ? 2 : 1);
 
         Vec3d v = player.getVelocity();
         // current forward speed
-        double f = v.dotProduct(Vec3d.fromPolar(0, player.yaw));
+        double f = v.dotProduct(Vec3d.fromPolar(0, player.getYaw()));
         // current side speed
-        double s = v.dotProduct(Vec3d.fromPolar(0, player.yaw - 90));
+        double s = v.dotProduct(Vec3d.fromPolar(0, player.getYaw() - 90));
 
         int iy = 0;
         if (player.input.jumping) iy++;
@@ -52,8 +52,8 @@ public class LivingEntityMixin {
         double z = input.z / 0.98;
         double inputLimit = Math.max(Math.abs(x), Math.abs(z));
 
-        float cp = MathHelper.cos(-player.pitch * deg2rad);
-        float sp = MathHelper.sin(-player.pitch * deg2rad);
+        float cp = MathHelper.cos(-player.getPitch() * deg2rad);
+        float sp = MathHelper.sin(-player.getPitch() * deg2rad);
 
         if (Config.movementMode.enabled() && z > 0.1 && (iy > 0 && sp > 1e-3 || iy < 0 && sp < -1e-3)) {
             if (Config.movementMode.fullSpeed()) {

@@ -36,14 +36,14 @@ public class ClientPlayerEntityMixin {
         )
     )
     private int abilityResyncCountdown(ClientPlayerEntity player) {
-        if (Config.airJumpFly && !player.abilities.flying && !player.isOnGround()
+        if (Config.airJumpFly && !player.getAbilities().flying && !player.isOnGround()
         && !player.hasVehicle() && !player.isClimbing() && !player.isTouchingWater()) {
             ItemStack itemStack = player.getEquippedStack(EquipmentSlot.CHEST);
             if (itemStack.getItem() != Items.ELYTRA || !ElytraItem.isUsable(itemStack)) {
                 return 1;
             }
         }
-        if (Config.sneakJumpDrop && player.input.sneaking && player.abilities.flying) {
+        if (Config.sneakJumpDrop && player.input.sneaking && player.getAbilities().flying) {
             return 1;
         }
         return ((PlayerEntityAccessor)player).getAbilityResyncCountdown();

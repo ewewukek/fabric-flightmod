@@ -6,12 +6,10 @@ import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ScreenTexts;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
+import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 
 public class ModMenuConfigScreen implements ModMenuApi {
     @Override
@@ -24,12 +22,12 @@ public class ModMenuConfigScreen implements ModMenuApi {
     }
 
     public static class ConfigScreen extends Screen {
-        public static final Text TITLE = new TranslatableText("flightmod.options.title");
-        public static final Text SINGLEPLAYER = new TranslatableText("flightmod.options.for.singleplayer");
-        public static final Text MOVEMENT_MODE = new TranslatableText("flightmod.options.movement_mode");
-        public static final Text INERTIA_COMPENSATION = new TranslatableText("flightmod.options.inertia_compensation");
-        public static final Text AIR_JUMP_FLY = new TranslatableText("flightmod.options.air_jump_fly");
-        public static final Text SNEAK_JUMP_DROP = new TranslatableText("flightmod.options.sneak_jump_drop");
+        public static final Text TITLE = Text.translatable("flightmod.options.title");
+        public static final Text SINGLEPLAYER = Text.translatable("flightmod.options.for.singleplayer");
+        public static final Text MOVEMENT_MODE = Text.translatable("flightmod.options.movement_mode");
+        public static final Text INERTIA_COMPENSATION = Text.translatable("flightmod.options.inertia_compensation");
+        public static final Text AIR_JUMP_FLY = Text.translatable("flightmod.options.air_jump_fly");
+        public static final Text SNEAK_JUMP_DROP = Text.translatable("flightmod.options.sneak_jump_drop");
 
         public static final int HEIGHT_STEP = 40;
         public static final int HEIGHT_START = -2 * HEIGHT_STEP;
@@ -47,36 +45,36 @@ public class ModMenuConfigScreen implements ModMenuApi {
         public void init() {
             super.init();
             Config.setServer(client.getCurrentServerEntry());
-            header = new TranslatableText("flightmod.options.for", Config.currentServer != null ? new LiteralText(Config.currentServer) : SINGLEPLAYER);
+            header = Text.translatable("flightmod.options.for", Config.currentServer != null ? Text.literal(Config.currentServer) : SINGLEPLAYER);
 
             int x = width / 2 - 60;
             int y = height / 2 + HEIGHT_START + 20;
-            movementModeButton = addButton(new OptionButton(
+            movementModeButton = addDrawableChild(new OptionButton(
                 x, y, 120, 20,
-                () -> { return new TranslatableText("flightmod.options.movement_mode." + Config.movementMode); },
+                () -> { return Text.translatable("flightmod.options.movement_mode." + Config.movementMode); },
                 (button) -> { Config.movementMode = Config.movementMode.next(); }
             ));
             y += HEIGHT_STEP;
-            addButton(new OptionButton(
+            addDrawableChild(new OptionButton(
                 x, y, 120, 20,
-                () -> { return new TranslatableText("flightmod.options.inertia_compensation." + Config.inertiaCompensation); },
+                () -> { return Text.translatable("flightmod.options.inertia_compensation." + Config.inertiaCompensation); },
                 (button) -> { Config.inertiaCompensation = Config.inertiaCompensation.next(); }
             ));
             y += HEIGHT_STEP;
-            addButton(new OptionButton(
+            addDrawableChild(new OptionButton(
                 x, y, 120, 20,
                 () -> { return Config.airJumpFly ? ScreenTexts.ON : ScreenTexts.OFF; },
                 (button) -> { Config.airJumpFly = !Config.airJumpFly; }
             ));
             y += HEIGHT_STEP;
-            addButton(new OptionButton(
+            addDrawableChild(new OptionButton(
                 x, y, 120, 20,
                 () -> { return Config.sneakJumpDrop ? ScreenTexts.ON : ScreenTexts.OFF; },
                 (button) -> { Config.sneakJumpDrop = !Config.sneakJumpDrop; }
             ));
-            addButton(new ButtonWidget(x, height - 30, 120, 20, ScreenTexts.DONE, (button) -> {
+            addDrawableChild(new ButtonWidget(x, height - 30, 120, 20, ScreenTexts.DONE, (button) -> {
                 Config.save();
-                onClose();
+                close();
             }));
         }
 
@@ -108,8 +106,8 @@ public class ModMenuConfigScreen implements ModMenuApi {
         }
 
         @Override
-        public void onClose() {
-            client.openScreen(parent);
+        public void close() {
+            client.setScreen(parent);
         }
 
         public class OptionButton extends ButtonWidget {
