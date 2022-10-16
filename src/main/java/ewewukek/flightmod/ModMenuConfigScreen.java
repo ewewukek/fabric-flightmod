@@ -76,7 +76,7 @@ public class ModMenuConfigScreen implements ModMenuApi {
             ));
             addDrawableChild(new ButtonWidget(x, height - 30, 120, 20, ScreenTexts.DONE, (button) -> {
                 Config.save();
-                onClose();
+                close();
             }));
         }
 
@@ -108,7 +108,7 @@ public class ModMenuConfigScreen implements ModMenuApi {
         }
 
         @Override
-        public void onClose() {
+        public void close() {
             client.setScreen(parent);
         }
 
