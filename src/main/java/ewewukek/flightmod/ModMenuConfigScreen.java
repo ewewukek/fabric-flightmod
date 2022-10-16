@@ -51,30 +51,30 @@ public class ModMenuConfigScreen implements ModMenuApi {
 
             int x = width / 2 - 60;
             int y = height / 2 + HEIGHT_START + 20;
-            movementModeButton = addButton(new OptionButton(
+            movementModeButton = addDrawableChild(new OptionButton(
                 x, y, 120, 20,
                 () -> { return new TranslatableText("flightmod.options.movement_mode." + Config.movementMode); },
                 (button) -> { Config.movementMode = Config.movementMode.next(); }
             ));
             y += HEIGHT_STEP;
-            addButton(new OptionButton(
+            addDrawableChild(new OptionButton(
                 x, y, 120, 20,
                 () -> { return new TranslatableText("flightmod.options.inertia_compensation." + Config.inertiaCompensation); },
                 (button) -> { Config.inertiaCompensation = Config.inertiaCompensation.next(); }
             ));
             y += HEIGHT_STEP;
-            addButton(new OptionButton(
+            addDrawableChild(new OptionButton(
                 x, y, 120, 20,
                 () -> { return Config.airJumpFly ? ScreenTexts.ON : ScreenTexts.OFF; },
                 (button) -> { Config.airJumpFly = !Config.airJumpFly; }
             ));
             y += HEIGHT_STEP;
-            addButton(new OptionButton(
+            addDrawableChild(new OptionButton(
                 x, y, 120, 20,
                 () -> { return Config.sneakJumpDrop ? ScreenTexts.ON : ScreenTexts.OFF; },
                 (button) -> { Config.sneakJumpDrop = !Config.sneakJumpDrop; }
             ));
-            addButton(new ButtonWidget(x, height - 30, 120, 20, ScreenTexts.DONE, (button) -> {
+            addDrawableChild(new ButtonWidget(x, height - 30, 120, 20, ScreenTexts.DONE, (button) -> {
                 Config.save();
                 onClose();
             }));
@@ -109,7 +109,7 @@ public class ModMenuConfigScreen implements ModMenuApi {
 
         @Override
         public void onClose() {
-            client.openScreen(parent);
+            client.setScreen(parent);
         }
 
         public class OptionButton extends ButtonWidget {
