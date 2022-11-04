@@ -2,19 +2,23 @@
   "schemaVersion": 1,
   "id": "flightmod",
   "version": "${version}",
-  "name": "Creative Flight Mod",
-  "description": "More natural ascend/descend mechanics for creative flight",
+  "name": "Flight Mod",
+  "description": "Hunger-based flight for survival and client-side tweaks for flight mechanics",
   "icon": "assets/flightmod/icon.png",
   "authors": [
     "ewewukek"
   ],
   "license": "MIT",
-  "environment": "client",
+  "environment": "*",
   "entrypoints": {
+    "main": [
+      "ewewukek.flightmod.FlightMod"
+    ],
     "modmenu": [
       "ewewukek.flightmod.ModMenuConfigScreen"
     ]
   },
+  "accessWidener": "flightmod.aw",
   "mixins": [
     "flightmod.mixins.json"
   ],

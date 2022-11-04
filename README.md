@@ -1,18 +1,28 @@
-## Creative Flight Mod
+## Flight Mod
 
-Client mod that modifies creative flight mechanics. [Download from CurseForge](https://www.curseforge.com/minecraft/mc-mods/flight-mod-fabric/files/all)
+Hunger-based flight for survival. With client-side flying mechanics tweaks. [Download from CurseForge](https://www.curseforge.com/minecraft/mc-mods/flight-mod-fabric/files/all)
 
-Main feature of this mod is adjusting movement so that it matches the looking direction when flying up or down.
+Requires [Cloth Config](https://www.curseforge.com/minecraft/mc-mods/cloth-config) and [Mod Menu](https://www.curseforge.com/minecraft/mc-mods/modmenu).
 
-It has three modes:
+**Flight is available in singleplayer only.** But you can put this mod on your server.
+
+### Main features (configurable):
+
+- Hunger cost per tick while flying + per 1m flown horizontally + per 1m flown upwards
+- Warning message when food level drops to certain level
+- No longer immune to fall damage
+- Can't fly inside water/lava
+
+### Client tweaks (configurable):
+
+- Modified flying movement. 3D flight if looking above/below certain degree. Makes landing on thin ledges easier.
+- Inertia compensation for side movement while flying forward. Lets you make sharp turns.
+- Extra keyboard shortcuts. Pressing Space key while falling will enable flight, pressing Shift+Space will disable flight.
+
+Movement modification has three modes:
 
 - vanilla - disabled
-- vanilla vertical - keep vanilla vertical speed and adjusts only horizontal movement
-- full speed - increase vertical speed to match horizontal movement (may be considered as unfair advantage on your server)
+- vanilla vertical - cap vertical speed to vanilla values
+- full speed - fly at full speed in any direction! **(may be considered as unfair advantage by some servers)**
 
-Other features are:
-
-- inertia compensation
-- more natural flight toggle
-
-**All features are disabled by default.** Settings are stored per-server and are accessible from [Mod Menu](https://www.curseforge.com/minecraft/mc-mods/third-person-crosshair-fabric) screen.
+**Client tweaks are available in multiplayer too but disabled by default.** Settings are stored per-server.

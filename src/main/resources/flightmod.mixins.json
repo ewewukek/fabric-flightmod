@@ -4,10 +4,14 @@
   "package": "ewewukek.flightmod.mixin",
   "compatibilityLevel": "JAVA_16",
   "client": [
+    "ClientPlayerEntityMixin",
+    "InGameHudMixin",
     "LivingEntityMixin",
     "PlayerEntityMixin",
-    "PlayerEntityAccessor",
-    "ClientPlayerEntityMixin"
+    "PlayerEntityServerMixin"
+  ],
+  "server": [
+    "PlayerEntityServerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
