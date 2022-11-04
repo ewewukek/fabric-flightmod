@@ -20,6 +20,15 @@ public class PlayerEntityServerMixin {
 
         if (player.world.isClient) return;
 
+        if (!Config.enableFlying) {
+            if (abilities.allowFlying || abilities.flying) {
+                abilities.allowFlying = false;
+                abilities.flying = false;
+                player.sendAbilitiesUpdate();
+            }
+            return;
+        }
+
         boolean prevAllowFlying = abilities.allowFlying;
         boolean prevFlying = abilities.flying;
 
@@ -46,7 +55,7 @@ public class PlayerEntityServerMixin {
     public void increaseTravelMotionStats(double dx, double dy, double dz, CallbackInfo ci) {
         PlayerEntity player = (PlayerEntity)(Object)this;
 
-        if (player.world.isClient) return;
+        if (player.world.isClient || !Config.enableFlying) return;
 
         if (player.getAbilities().flying) {
             float r = 0.01f * Math.round(100 * (float)Math.sqrt(dx * dx + dz * dz));
@@ -59,6 +68,6 @@ public class PlayerEntityServerMixin {
 
     @Redirect(method = "handleFallDamage", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/PlayerAbilities;allowFlying:Z"))
     public boolean allowFlying(PlayerAbilities abilities) {
-        return Config.disableFallDamage || abilities.creativeMode;
+        return !Config.doFallDamage || abilities.creativeMode;
     }
 }

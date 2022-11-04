@@ -20,15 +20,14 @@ public class Config {
     public static String currentServer;
     public static Path configPath;
 
-    public static float flyingCost = 0.025f;
-    public static float flyingHorizontalCost = 0.1f;
-    public static float flyingUpCost = 0.1f;
-
-    public static boolean disableFallDamage = false;
-    public static boolean flyInWater = false;
-    public static boolean flyInLava = false;
-
-    public static int foodLevelWarning = 6;
+    public static boolean enableFlying;
+    public static float flyingCost;
+    public static float flyingHorizontalCost;
+    public static float flyingUpCost;
+    public static boolean doFallDamage;
+    public static boolean flyInWater;
+    public static boolean flyInLava;
+    public static int foodLevelWarning;
 
     public static MovementMode movementMode;
     public static InertiaCompensationMode inertiaCompensation;
@@ -36,6 +35,15 @@ public class Config {
     public static boolean sneakJumpDrop;
 
     public static void setDefaults() {
+        enableFlying = true;
+        flyingCost = 0.025f;
+        flyingHorizontalCost = 0.1f;
+        flyingUpCost = 0.1f;
+        doFallDamage = true;
+        flyInWater = false;
+        flyInLava = false;
+        foodLevelWarning = 6;
+
         movementMode = MovementMode.VANILLA;
         inertiaCompensation = InertiaCompensationMode.NEVER;
         airJumpFly = false;
