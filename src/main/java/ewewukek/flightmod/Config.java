@@ -48,9 +48,9 @@ public class Config {
     public static final MovementMode MOVEMENT_MODE_DEFAULT_SERVER = MovementMode.FULL_SPEED;
     public static final MovementMode MOVEMENT_MODE_DEFAULT_CLIENT = MovementMode.VANILLA;
 
-    public static InertiaCompensationMode inertiaCompensation;
-    public static final InertiaCompensationMode INERTIA_COMPENSATION_DEFAULT_SERVER = InertiaCompensationMode.ALWAYS;
-    public static final InertiaCompensationMode INERTIA_COMPENSATION_DEFAULT_CLIENT = InertiaCompensationMode.NEVER;
+    public static boolean compensateSideInertia;
+    public static final boolean COMPENSATE_SIDE_INERTIA_DEFAULT_SERVER = true;
+    public static final boolean COMPENSATE_SIDE_INERTIA_DEFAULT_CLIENT = false;
 
     public static boolean airJumpFly;
     public static final boolean AIR_JUMP_FLY_DEFAULT_SERVER = true;
@@ -72,12 +72,12 @@ public class Config {
 
         if (currentServer == null) {
             movementMode = MOVEMENT_MODE_DEFAULT_SERVER;
-            inertiaCompensation = INERTIA_COMPENSATION_DEFAULT_SERVER;
+            compensateSideInertia = COMPENSATE_SIDE_INERTIA_DEFAULT_SERVER;
             airJumpFly = AIR_JUMP_FLY_DEFAULT_SERVER;
             sneakJumpDrop = SNEAK_JUMP_DROP_DEFAULT_SERVER;
         } else {
             movementMode = MOVEMENT_MODE_DEFAULT_CLIENT;
-            inertiaCompensation = INERTIA_COMPENSATION_DEFAULT_CLIENT;
+            compensateSideInertia = COMPENSATE_SIDE_INERTIA_DEFAULT_CLIENT;
             airJumpFly = AIR_JUMP_FLY_DEFAULT_CLIENT;
             sneakJumpDrop = SNEAK_JUMP_DROP_DEFAULT_CLIENT;
         }
@@ -157,8 +157,11 @@ public class Config {
                     case "movementMode":
                         movementMode = MovementMode.read(value);
                         break;
-                    case "inertiaCompensationMode":
-                        inertiaCompensation = InertiaCompensationMode.read(value);
+                    case "inertiaCompensationMode": // remnants of previous version
+                        compensateSideInertia = value != "never";
+                        break;
+                    case "compensateSideInertia":
+                        compensateSideInertia = Boolean.parseBoolean(value);
                         break;
                     case "airJumpFly":
                         airJumpFly = Boolean.parseBoolean(value);
@@ -193,7 +196,7 @@ public class Config {
                 writer.write("foodLevelWarning = " + foodLevelWarning + "\n");
             }
             writer.write("movementMode = " + movementMode + "\n");
-            writer.write("inertiaCompensationMode = " + inertiaCompensation + "\n");
+            writer.write("compensateSideInertia = " + compensateSideInertia + "\n");
             writer.write("airJumpFly = " + airJumpFly + "\n");
             writer.write("sneakJumpDrop = " + sneakJumpDrop + "\n");
 

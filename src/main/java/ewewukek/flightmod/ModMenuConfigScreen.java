@@ -84,11 +84,10 @@ public class ModMenuConfigScreen implements ModMenuApi {
                 .setEnumNameProvider(value -> Text.translatable("flightmod.options.client.movement_mode." + value))
                 .build());
 
-            category.addEntry(entryBuilder.startEnumSelector(
-                Text.translatable("flightmod.options.client.inertia_compensation"), Config.InertiaCompensationMode.class, Config.inertiaCompensation)
-                .setSaveConsumer(value -> Config.inertiaCompensation = value)
-                .setDefaultValue(Config.currentServer == null ? Config.INERTIA_COMPENSATION_DEFAULT_SERVER : Config.INERTIA_COMPENSATION_DEFAULT_CLIENT)
-                .setEnumNameProvider(value -> Text.translatable("flightmod.options.client.inertia_compensation." + value))
+            category.addEntry(entryBuilder.startBooleanToggle(
+                Text.translatable("flightmod.options.client.compensate_side_inertia"), Config.compensateSideInertia)
+                .setSaveConsumer(value -> Config.compensateSideInertia = value)
+                .setDefaultValue(Config.currentServer == null ? Config.COMPENSATE_SIDE_INERTIA_DEFAULT_SERVER : Config.COMPENSATE_SIDE_INERTIA_DEFAULT_CLIENT)
                 .build());
 
             category.addEntry(entryBuilder.startBooleanToggle(
