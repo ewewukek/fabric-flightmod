@@ -1,4 +1,5 @@
 {
+  "flightmod.low_food_warning": "Low food level!",
   "flightmod.options.title": "Creative Flight Mod",
   "flightmod.options.for": "Settings for: %s",
   "flightmod.options.for.singleplayer": "Singleplayer",

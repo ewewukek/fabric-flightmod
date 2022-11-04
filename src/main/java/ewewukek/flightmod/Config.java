@@ -20,6 +20,16 @@ public class Config {
     public static String currentServer;
     public static Path configPath;
 
+    public static float flyingCost = 0.025f;
+    public static float flyingHorizontalCost = 0.1f;
+    public static float flyingUpCost = 0.1f;
+
+    public static boolean disableFallDamage = false;
+    public static boolean flyInWater = false;
+    public static boolean flyInLava = false;
+
+    public static int foodLevelWarning = 6;
+
     public static MovementMode movementMode;
     public static InertiaCompensationMode inertiaCompensation;
     public static boolean airJumpFly;
