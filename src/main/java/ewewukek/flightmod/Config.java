@@ -45,20 +45,20 @@ public class Config {
     public static final int FOOD_LEVEL_WARNING_DEFAULT = 6;
 
     public static MovementMode movementMode;
-    public static final MovementMode MOVEMENT_MODE_DEFAULT_SERVER = MovementMode.FULL_SPEED;
-    public static final MovementMode MOVEMENT_MODE_DEFAULT_CLIENT = MovementMode.VANILLA;
+    public static final MovementMode MOVEMENT_MODE_DEFAULT_SINGLEPLAYER = MovementMode.FULL_SPEED;
+    public static final MovementMode MOVEMENT_MODE_DEFAULT_MULTIPLAYER = MovementMode.VANILLA;
 
     public static boolean compensateSideInertia;
-    public static final boolean COMPENSATE_SIDE_INERTIA_DEFAULT_SERVER = true;
-    public static final boolean COMPENSATE_SIDE_INERTIA_DEFAULT_CLIENT = false;
+    public static final boolean COMPENSATE_SIDE_INERTIA_DEFAULT_SINGLEPLAYER = true;
+    public static final boolean COMPENSATE_SIDE_INERTIA_DEFAULT_MULTIPLAYER = false;
 
     public static boolean airJumpFly;
-    public static final boolean AIR_JUMP_FLY_DEFAULT_SERVER = true;
-    public static final boolean AIR_JUMP_FLY_DEFAULT_CLIENT = false;
+    public static final boolean AIR_JUMP_FLY_DEFAULT_SINGLEPLAYER = true;
+    public static final boolean AIR_JUMP_FLY_DEFAULT_MULTIPLAYER = false;
 
     public static boolean sneakJumpDrop;
-    public static final boolean SNEAK_JUMP_DROP_DEFAULT_SERVER = true;
-    public static final boolean SNEAK_JUMP_DROP_DEFAULT_CLIENT = false;
+    public static final boolean SNEAK_JUMP_DROP_DEFAULT_SINGLEPLAYER = true;
+    public static final boolean SNEAK_JUMP_DROP_DEFAULT_MULTIPLAYER = false;
 
     public static void setDefaults() {
         enableFlying = ENABLE_FLYING_DEFAULT;
@@ -71,15 +71,15 @@ public class Config {
         foodLevelWarning = FOOD_LEVEL_WARNING_DEFAULT;
 
         if (currentServer == null) {
-            movementMode = MOVEMENT_MODE_DEFAULT_SERVER;
-            compensateSideInertia = COMPENSATE_SIDE_INERTIA_DEFAULT_SERVER;
-            airJumpFly = AIR_JUMP_FLY_DEFAULT_SERVER;
-            sneakJumpDrop = SNEAK_JUMP_DROP_DEFAULT_SERVER;
+            movementMode = MOVEMENT_MODE_DEFAULT_SINGLEPLAYER;
+            compensateSideInertia = COMPENSATE_SIDE_INERTIA_DEFAULT_SINGLEPLAYER;
+            airJumpFly = AIR_JUMP_FLY_DEFAULT_SINGLEPLAYER;
+            sneakJumpDrop = SNEAK_JUMP_DROP_DEFAULT_SINGLEPLAYER;
         } else {
-            movementMode = MOVEMENT_MODE_DEFAULT_CLIENT;
-            compensateSideInertia = COMPENSATE_SIDE_INERTIA_DEFAULT_CLIENT;
-            airJumpFly = AIR_JUMP_FLY_DEFAULT_CLIENT;
-            sneakJumpDrop = SNEAK_JUMP_DROP_DEFAULT_CLIENT;
+            movementMode = MOVEMENT_MODE_DEFAULT_MULTIPLAYER;
+            compensateSideInertia = COMPENSATE_SIDE_INERTIA_DEFAULT_MULTIPLAYER;
+            airJumpFly = AIR_JUMP_FLY_DEFAULT_MULTIPLAYER;
+            sneakJumpDrop = SNEAK_JUMP_DROP_DEFAULT_MULTIPLAYER;
         }
     }
 

@@ -80,25 +80,25 @@ public class ModMenuConfigScreen implements ModMenuApi {
             category.addEntry(entryBuilder.startEnumSelector(
                 Text.translatable("flightmod.options.client.movement_mode"), Config.MovementMode.class, Config.movementMode)
                 .setSaveConsumer(value -> Config.movementMode = value)
-                .setDefaultValue(Config.currentServer == null ? Config.MOVEMENT_MODE_DEFAULT_SERVER : Config.MOVEMENT_MODE_DEFAULT_CLIENT)
+                .setDefaultValue(Config.currentServer == null ? Config.MOVEMENT_MODE_DEFAULT_SINGLEPLAYER : Config.MOVEMENT_MODE_DEFAULT_MULTIPLAYER)
                 .setEnumNameProvider(value -> Text.translatable("flightmod.options.client.movement_mode." + value))
                 .build());
 
             category.addEntry(entryBuilder.startBooleanToggle(
                 Text.translatable("flightmod.options.client.compensate_side_inertia"), Config.compensateSideInertia)
                 .setSaveConsumer(value -> Config.compensateSideInertia = value)
-                .setDefaultValue(Config.currentServer == null ? Config.COMPENSATE_SIDE_INERTIA_DEFAULT_SERVER : Config.COMPENSATE_SIDE_INERTIA_DEFAULT_CLIENT)
+                .setDefaultValue(Config.currentServer == null ? Config.COMPENSATE_SIDE_INERTIA_DEFAULT_SINGLEPLAYER : Config.COMPENSATE_SIDE_INERTIA_DEFAULT_MULTIPLAYER)
                 .build());
 
             category.addEntry(entryBuilder.startBooleanToggle(
                 Text.translatable("flightmod.options.client.air_jump_fly"), Config.airJumpFly)
                 .setSaveConsumer(value -> Config.airJumpFly = value)
-                .setDefaultValue(Config.currentServer == null ? Config.AIR_JUMP_FLY_DEFAULT_SERVER : Config.AIR_JUMP_FLY_DEFAULT_CLIENT)
+                .setDefaultValue(Config.currentServer == null ? Config.AIR_JUMP_FLY_DEFAULT_SINGLEPLAYER : Config.AIR_JUMP_FLY_DEFAULT_MULTIPLAYER)
                 .build());
 
             category.addEntry(entryBuilder.startBooleanToggle(
                 Text.translatable("flightmod.options.client.sneak_jump_drop"), Config.sneakJumpDrop)
-                .setDefaultValue(Config.currentServer == null ? Config.SNEAK_JUMP_DROP_DEFAULT_SERVER : Config.SNEAK_JUMP_DROP_DEFAULT_CLIENT)
+                .setDefaultValue(Config.currentServer == null ? Config.SNEAK_JUMP_DROP_DEFAULT_SINGLEPLAYER : Config.SNEAK_JUMP_DROP_DEFAULT_MULTIPLAYER)
                 .setSaveConsumer(value -> Config.sneakJumpDrop = value)
                 .build());
 
