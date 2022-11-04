@@ -21,33 +21,66 @@ public class Config {
     public static Path configPath;
 
     public static boolean enableFlying;
+    public static final boolean ENABLE_FLYING_DEFAULT = true;
+
     public static float flyingCost;
+    public static final float FLYING_COST_DEFAULT = 0.025f;
+
     public static float flyingHorizontalCost;
+    public static final float FLYING_HORIZONTAL_COST_DEFAULT = 0.1f;
+
     public static float flyingUpCost;
+    public static final float FLYING_UP_COST_DEFAULT = 0.1f;
+
     public static boolean doFallDamage;
+    public static final boolean DO_FALL_DAMAGE_DEFAULT = true;
+
     public static boolean flyInWater;
+    public static final boolean FLY_IN_WATER_DEFAULT = false;
+
     public static boolean flyInLava;
+    public static final boolean FLY_IN_LAVA_DEFAULT = false;
+
     public static int foodLevelWarning;
+    public static final int FOOD_LEVEL_WARNING_DEFAULT = 6;
 
     public static MovementMode movementMode;
+    public static final MovementMode MOVEMENT_MODE_DEFAULT_SERVER = MovementMode.FULL_SPEED;
+    public static final MovementMode MOVEMENT_MODE_DEFAULT_CLIENT = MovementMode.VANILLA;
+
     public static InertiaCompensationMode inertiaCompensation;
+    public static final InertiaCompensationMode INERTIA_COMPENSATION_DEFAULT_SERVER = InertiaCompensationMode.ALWAYS;
+    public static final InertiaCompensationMode INERTIA_COMPENSATION_DEFAULT_CLIENT = InertiaCompensationMode.NEVER;
+
     public static boolean airJumpFly;
+    public static final boolean AIR_JUMP_FLY_DEFAULT_SERVER = true;
+    public static final boolean AIR_JUMP_FLY_DEFAULT_CLIENT = false;
+
     public static boolean sneakJumpDrop;
+    public static final boolean SNEAK_JUMP_DROP_DEFAULT_SERVER = true;
+    public static final boolean SNEAK_JUMP_DROP_DEFAULT_CLIENT = false;
 
     public static void setDefaults() {
-        enableFlying = true;
-        flyingCost = 0.025f;
-        flyingHorizontalCost = 0.1f;
-        flyingUpCost = 0.1f;
-        doFallDamage = true;
-        flyInWater = false;
-        flyInLava = false;
-        foodLevelWarning = 6;
+        enableFlying = ENABLE_FLYING_DEFAULT;
+        flyingCost = FLYING_COST_DEFAULT;
+        flyingHorizontalCost = FLYING_HORIZONTAL_COST_DEFAULT;
+        flyingUpCost = FLYING_UP_COST_DEFAULT;
+        doFallDamage = DO_FALL_DAMAGE_DEFAULT;
+        flyInWater = FLY_IN_WATER_DEFAULT;
+        flyInLava = FLY_IN_LAVA_DEFAULT;
+        foodLevelWarning = FOOD_LEVEL_WARNING_DEFAULT;
 
-        movementMode = MovementMode.VANILLA;
-        inertiaCompensation = InertiaCompensationMode.NEVER;
-        airJumpFly = false;
-        sneakJumpDrop = false;
+        if (currentServer == null) {
+            movementMode = MOVEMENT_MODE_DEFAULT_SERVER;
+            inertiaCompensation = INERTIA_COMPENSATION_DEFAULT_SERVER;
+            airJumpFly = AIR_JUMP_FLY_DEFAULT_SERVER;
+            sneakJumpDrop = SNEAK_JUMP_DROP_DEFAULT_SERVER;
+        } else {
+            movementMode = MOVEMENT_MODE_DEFAULT_CLIENT;
+            inertiaCompensation = INERTIA_COMPENSATION_DEFAULT_CLIENT;
+            airJumpFly = AIR_JUMP_FLY_DEFAULT_CLIENT;
+            sneakJumpDrop = SNEAK_JUMP_DROP_DEFAULT_CLIENT;
+        }
     }
 
     public static void setServer(ServerInfo server) {

@@ -28,26 +28,31 @@ public class ModMenuConfigScreen implements ModMenuApi {
                 category.addEntry(entryBuilder.startBooleanToggle(
                     Text.translatable("flightmod.options.server.enable_flying"), Config.enableFlying)
                     .setSaveConsumer(value -> Config.enableFlying = value)
+                    .setDefaultValue(Config.ENABLE_FLYING_DEFAULT)
                     .build());
 
                 category.addEntry(entryBuilder.startBooleanToggle(
                     Text.translatable("flightmod.options.server.enable_fall_damage"), Config.doFallDamage)
                     .setSaveConsumer(value -> Config.doFallDamage = value)
+                    .setDefaultValue(Config.DO_FALL_DAMAGE_DEFAULT)
                     .build());
 
                 category.addEntry(entryBuilder.startBooleanToggle(
                     Text.translatable("flightmod.options.server.fly_in_water"), Config.flyInWater)
                     .setSaveConsumer(value -> Config.flyInWater = value)
+                    .setDefaultValue(Config.FLY_IN_WATER_DEFAULT)
                     .build());
 
                 category.addEntry(entryBuilder.startBooleanToggle(
                     Text.translatable("flightmod.options.server.fly_in_lava"), Config.flyInLava)
                     .setSaveConsumer(value -> Config.flyInLava = value)
+                    .setDefaultValue(Config.FLY_IN_LAVA_DEFAULT)
                     .build());
 
                 category.addEntry(entryBuilder.startFloatField(
                     Text.translatable("flightmod.options.server.flying_cost"), Config.flyingCost)
                     .setSaveConsumer(value -> Config.flyingCost = value)
+                    .setDefaultValue(Config.FLYING_COST_DEFAULT)
                     .setMin(0).setMax(1)
                     .build());
 
@@ -55,39 +60,46 @@ public class ModMenuConfigScreen implements ModMenuApi {
                     Text.translatable("flightmod.options.server.flying_horizontal_cost"), Config.flyingHorizontalCost)
                     .setSaveConsumer(value -> Config.flyingHorizontalCost = value)
                     .setMin(0).setMax(1)
+                    .setDefaultValue(Config.FLYING_HORIZONTAL_COST_DEFAULT)
                     .build());
 
                 category.addEntry(entryBuilder.startFloatField(
                     Text.translatable("flightmod.options.server.flying_up_cost"), Config.flyingUpCost)
                     .setSaveConsumer(value -> Config.flyingUpCost = value)
                     .setMin(0).setMax(1)
+                    .setDefaultValue(Config.FLYING_UP_COST_DEFAULT)
                     .build());
 
                 category.addEntry(entryBuilder.startIntSlider(
                     Text.translatable("flightmod.options.server.food_level_warning"), Config.foodLevelWarning, -1, 10)
                     .setSaveConsumer(value -> Config.foodLevelWarning = value)
+                    .setDefaultValue(Config.FOOD_LEVEL_WARNING_DEFAULT)
                     .build());
             }
 
             category.addEntry(entryBuilder.startEnumSelector(
                 Text.translatable("flightmod.options.client.movement_mode"), Config.MovementMode.class, Config.movementMode)
                 .setSaveConsumer(value -> Config.movementMode = value)
+                .setDefaultValue(Config.currentServer == null ? Config.MOVEMENT_MODE_DEFAULT_SERVER : Config.MOVEMENT_MODE_DEFAULT_CLIENT)
                 .setEnumNameProvider(value -> Text.translatable("flightmod.options.client.movement_mode." + value))
                 .build());
 
             category.addEntry(entryBuilder.startEnumSelector(
                 Text.translatable("flightmod.options.client.inertia_compensation"), Config.InertiaCompensationMode.class, Config.inertiaCompensation)
                 .setSaveConsumer(value -> Config.inertiaCompensation = value)
+                .setDefaultValue(Config.currentServer == null ? Config.INERTIA_COMPENSATION_DEFAULT_SERVER : Config.INERTIA_COMPENSATION_DEFAULT_CLIENT)
                 .setEnumNameProvider(value -> Text.translatable("flightmod.options.client.inertia_compensation." + value))
                 .build());
 
             category.addEntry(entryBuilder.startBooleanToggle(
                 Text.translatable("flightmod.options.client.air_jump_fly"), Config.airJumpFly)
                 .setSaveConsumer(value -> Config.airJumpFly = value)
+                .setDefaultValue(Config.currentServer == null ? Config.AIR_JUMP_FLY_DEFAULT_SERVER : Config.AIR_JUMP_FLY_DEFAULT_CLIENT)
                 .build());
 
             category.addEntry(entryBuilder.startBooleanToggle(
                 Text.translatable("flightmod.options.client.sneak_jump_drop"), Config.sneakJumpDrop)
+                .setDefaultValue(Config.currentServer == null ? Config.SNEAK_JUMP_DROP_DEFAULT_SERVER : Config.SNEAK_JUMP_DROP_DEFAULT_CLIENT)
                 .setSaveConsumer(value -> Config.sneakJumpDrop = value)
                 .build());
 
