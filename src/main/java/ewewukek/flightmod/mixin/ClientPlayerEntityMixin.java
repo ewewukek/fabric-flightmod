@@ -46,6 +46,6 @@ public class ClientPlayerEntityMixin {
         if (Config.sneakJumpDrop && player.input.sneaking && player.getAbilities().flying) {
             return 1;
         }
-        return ((PlayerEntityAccessor)player).getAbilityResyncCountdown();
+        return player.abilityResyncCountdown;
     }
 }

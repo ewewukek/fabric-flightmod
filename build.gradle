@@ -21,6 +21,10 @@ dependencies {
     modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
 }
 
+loom {
+	accessWidenerPath = file("src/main/resources/flightmod.aw")
+}
+
 processResources {
     inputs.property "version", project.version
 
