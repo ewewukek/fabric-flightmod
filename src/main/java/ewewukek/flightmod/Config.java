@@ -20,16 +20,67 @@ public class Config {
     public static String currentServer;
     public static Path configPath;
 
+    public static boolean enableFlying;
+    public static final boolean ENABLE_FLYING_DEFAULT = true;
+
+    public static float flyingCost;
+    public static final float FLYING_COST_DEFAULT = 0.025f;
+
+    public static float flyingHorizontalCost;
+    public static final float FLYING_HORIZONTAL_COST_DEFAULT = 0.1f;
+
+    public static float flyingUpCost;
+    public static final float FLYING_UP_COST_DEFAULT = 0.1f;
+
+    public static boolean doFallDamage;
+    public static final boolean DO_FALL_DAMAGE_DEFAULT = true;
+
+    public static boolean flyInWater;
+    public static final boolean FLY_IN_WATER_DEFAULT = false;
+
+    public static boolean flyInLava;
+    public static final boolean FLY_IN_LAVA_DEFAULT = false;
+
+    public static int foodLevelWarning;
+    public static final int FOOD_LEVEL_WARNING_DEFAULT = 6;
+
     public static MovementMode movementMode;
-    public static InertiaCompensationMode inertiaCompensation;
+    public static final MovementMode MOVEMENT_MODE_DEFAULT_SINGLEPLAYER = MovementMode.FULL_SPEED;
+    public static final MovementMode MOVEMENT_MODE_DEFAULT_MULTIPLAYER = MovementMode.VANILLA;
+
+    public static boolean compensateSideInertia;
+    public static final boolean COMPENSATE_SIDE_INERTIA_DEFAULT_SINGLEPLAYER = true;
+    public static final boolean COMPENSATE_SIDE_INERTIA_DEFAULT_MULTIPLAYER = false;
+
     public static boolean airJumpFly;
+    public static final boolean AIR_JUMP_FLY_DEFAULT_SINGLEPLAYER = true;
+    public static final boolean AIR_JUMP_FLY_DEFAULT_MULTIPLAYER = false;
+
     public static boolean sneakJumpDrop;
+    public static final boolean SNEAK_JUMP_DROP_DEFAULT_SINGLEPLAYER = true;
+    public static final boolean SNEAK_JUMP_DROP_DEFAULT_MULTIPLAYER = false;
 
     public static void setDefaults() {
-        movementMode = MovementMode.VANILLA;
-        inertiaCompensation = InertiaCompensationMode.NEVER;
-        airJumpFly = false;
-        sneakJumpDrop = false;
+        enableFlying = ENABLE_FLYING_DEFAULT;
+        flyingCost = FLYING_COST_DEFAULT;
+        flyingHorizontalCost = FLYING_HORIZONTAL_COST_DEFAULT;
+        flyingUpCost = FLYING_UP_COST_DEFAULT;
+        doFallDamage = DO_FALL_DAMAGE_DEFAULT;
+        flyInWater = FLY_IN_WATER_DEFAULT;
+        flyInLava = FLY_IN_LAVA_DEFAULT;
+        foodLevelWarning = FOOD_LEVEL_WARNING_DEFAULT;
+
+        if (currentServer == null) {
+            movementMode = MOVEMENT_MODE_DEFAULT_SINGLEPLAYER;
+            compensateSideInertia = COMPENSATE_SIDE_INERTIA_DEFAULT_SINGLEPLAYER;
+            airJumpFly = AIR_JUMP_FLY_DEFAULT_SINGLEPLAYER;
+            sneakJumpDrop = SNEAK_JUMP_DROP_DEFAULT_SINGLEPLAYER;
+        } else {
+            movementMode = MOVEMENT_MODE_DEFAULT_MULTIPLAYER;
+            compensateSideInertia = COMPENSATE_SIDE_INERTIA_DEFAULT_MULTIPLAYER;
+            airJumpFly = AIR_JUMP_FLY_DEFAULT_MULTIPLAYER;
+            sneakJumpDrop = SNEAK_JUMP_DROP_DEFAULT_MULTIPLAYER;
+        }
     }
 
     public static void setServer(ServerInfo server) {
@@ -79,17 +130,44 @@ public class Config {
                     String value = s.next().trim();
 
                     switch (key) {
+                    case "enableFlying":
+                        enableFlying = Boolean.parseBoolean(value);
+                        break;
+                    case "doFallDamage":
+                        doFallDamage = Boolean.parseBoolean(value);
+                        break;
+                    case "flyInWater":
+                        flyInWater = Boolean.parseBoolean(value);
+                        break;
+                    case "flyInLava":
+                        flyInLava = Boolean.parseBoolean(value);
+                        break;
+                    case "flyingCost":
+                        flyingCost = Float.parseFloat(value);
+                        break;
+                    case "flyingHorizontalCost":
+                        flyingHorizontalCost = Float.parseFloat(value);
+                        break;
+                    case "flyingUpCost":
+                        flyingUpCost = Float.parseFloat(value);
+                        break;
+                    case "foodLevelWarning":
+                        foodLevelWarning = Integer.parseInt(value);
+                        break;
                     case "movementMode":
                         movementMode = MovementMode.read(value);
                         break;
-                    case "inertiaCompensationMode":
-                        inertiaCompensation = InertiaCompensationMode.read(value);
+                    case "inertiaCompensationMode": // remnants of previous version
+                        compensateSideInertia = value != "never";
+                        break;
+                    case "compensateSideInertia":
+                        compensateSideInertia = Boolean.parseBoolean(value);
                         break;
                     case "airJumpFly":
-                        airJumpFly = readBoolean(value);
+                        airJumpFly = Boolean.parseBoolean(value);
                         break;
                     case "sneakJumpDrop":
-                        sneakJumpDrop = readBoolean(value);
+                        sneakJumpDrop = Boolean.parseBoolean(value);
                         break;
                     default:
                         throw new IOException("unrecognized field: " + key);
@@ -107,24 +185,24 @@ public class Config {
     public static void save() {
         try (BufferedWriter writer = Files.newBufferedWriter(configPath)) {
             writer.write("version = 1\n");
+            if (currentServer == null) {
+                writer.write("enableFlying = " + enableFlying + "\n");
+                writer.write("doFallDamage = " + doFallDamage + "\n");
+                writer.write("flyInWater = " + flyInWater + "\n");
+                writer.write("flyInLava = " + flyInLava + "\n");
+                writer.write("flyingCost = " + flyingCost + "\n");
+                writer.write("flyingHorizontalCost = " + flyingHorizontalCost + "\n");
+                writer.write("flyingUpCost = " + flyingUpCost + "\n");
+                writer.write("foodLevelWarning = " + foodLevelWarning + "\n");
+            }
             writer.write("movementMode = " + movementMode + "\n");
-            writer.write("inertiaCompensationMode = " + inertiaCompensation + "\n");
+            writer.write("compensateSideInertia = " + compensateSideInertia + "\n");
             writer.write("airJumpFly = " + airJumpFly + "\n");
             writer.write("sneakJumpDrop = " + sneakJumpDrop + "\n");
 
         } catch (IOException e) {
             logger.warn("Could not save configuration file: ", e);
         }
-    }
-
-    public static boolean readBoolean(String value) throws IOException {
-        if (value.equals("true")) {
-            return true;
-        } else if (value.equals("false")) {
-            return false;
-        }
-
-        throw new IOException("invalid boolean value: " + value);
     }
 
     public enum MovementMode {

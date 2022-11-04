@@ -86,14 +86,8 @@ public class LivingEntityMixin {
             z = (t - f) / speed;
         }
 
-        if (Config.inertiaCompensation.enabled()) {
-            boolean always = Config.inertiaCompensation.always();
-            if (Math.abs(z) < 0.1 && always) {
-                z = -f / speed;
-            }
-            if (Math.abs(x) < 0.1 && (always || z > 0.1)) {
-                x = -s / speed;
-            }
+        if (Config.compensateSideInertia && Math.abs(x) < 0.1 && z > 0.1) {
+            x = -s / speed;
         }
 
         x = 0.98 * MathHelper.clamp(x, -inputLimit, inputLimit);
