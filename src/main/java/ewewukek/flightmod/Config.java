@@ -130,6 +130,30 @@ public class Config {
                     String value = s.next().trim();
 
                     switch (key) {
+                    case "enableFlying":
+                        enableFlying = Boolean.parseBoolean(value);
+                        break;
+                    case "doFallDamage":
+                        doFallDamage = Boolean.parseBoolean(value);
+                        break;
+                    case "flyInWater":
+                        flyInWater = Boolean.parseBoolean(value);
+                        break;
+                    case "flyInLava":
+                        flyInLava = Boolean.parseBoolean(value);
+                        break;
+                    case "flyingCost":
+                        flyingCost = Float.parseFloat(value);
+                        break;
+                    case "flyingHorizontalCost":
+                        flyingHorizontalCost = Float.parseFloat(value);
+                        break;
+                    case "flyingUpCost":
+                        flyingUpCost = Float.parseFloat(value);
+                        break;
+                    case "foodLevelWarning":
+                        foodLevelWarning = Integer.parseInt(value);
+                        break;
                     case "movementMode":
                         movementMode = MovementMode.read(value);
                         break;
@@ -137,10 +161,10 @@ public class Config {
                         inertiaCompensation = InertiaCompensationMode.read(value);
                         break;
                     case "airJumpFly":
-                        airJumpFly = readBoolean(value);
+                        airJumpFly = Boolean.parseBoolean(value);
                         break;
                     case "sneakJumpDrop":
-                        sneakJumpDrop = readBoolean(value);
+                        sneakJumpDrop = Boolean.parseBoolean(value);
                         break;
                     default:
                         throw new IOException("unrecognized field: " + key);
@@ -158,6 +182,16 @@ public class Config {
     public static void save() {
         try (BufferedWriter writer = Files.newBufferedWriter(configPath)) {
             writer.write("version = 1\n");
+            if (currentServer == null) {
+                writer.write("enableFlying = " + enableFlying + "\n");
+                writer.write("doFallDamage = " + doFallDamage + "\n");
+                writer.write("flyInWater = " + flyInWater + "\n");
+                writer.write("flyInLava = " + flyInLava + "\n");
+                writer.write("flyingCost = " + flyingCost + "\n");
+                writer.write("flyingHorizontalCost = " + flyingHorizontalCost + "\n");
+                writer.write("flyingUpCost = " + flyingUpCost + "\n");
+                writer.write("foodLevelWarning = " + foodLevelWarning + "\n");
+            }
             writer.write("movementMode = " + movementMode + "\n");
             writer.write("inertiaCompensationMode = " + inertiaCompensation + "\n");
             writer.write("airJumpFly = " + airJumpFly + "\n");
@@ -166,16 +200,6 @@ public class Config {
         } catch (IOException e) {
             logger.warn("Could not save configuration file: ", e);
         }
-    }
-
-    public static boolean readBoolean(String value) throws IOException {
-        if (value.equals("true")) {
-            return true;
-        } else if (value.equals("false")) {
-            return false;
-        }
-
-        throw new IOException("invalid boolean value: " + value);
     }
 
     public enum MovementMode {
