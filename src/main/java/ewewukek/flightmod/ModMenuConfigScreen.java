@@ -1,127 +1,101 @@
 package ewewukek.flightmod;
 
-import java.util.function.Supplier;
-
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.screen.ScreenTexts;
+import me.shedaniel.clothconfig2.api.ConfigBuilder;
+import me.shedaniel.clothconfig2.api.ConfigCategory;
+import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 
 public class ModMenuConfigScreen implements ModMenuApi {
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        return ModMenuConfigScreen::create;
-    }
+        return parent -> {
+            Config.setServer(MinecraftClient.getInstance().getCurrentServerEntry());
 
-    public static Screen create(Screen parent) {
-        return new ConfigScreen(parent);
-    }
+            Text title = Config.currentServer != null ? Text.translatable("flightmod.options.for", Text.literal(Config.currentServer))
+                                                      : Text.translatable("flightmod.options.for.singleplayer");
+            ConfigBuilder builder = ConfigBuilder.create()
+                .setParentScreen(parent)
+                .setTitle(title);
+            ConfigEntryBuilder entryBuilder = builder.entryBuilder();
 
-    public static class ConfigScreen extends Screen {
-        public static final Text TITLE = Text.translatable("flightmod.options.title");
-        public static final Text SINGLEPLAYER = Text.translatable("flightmod.options.for.singleplayer");
-        public static final Text MOVEMENT_MODE = Text.translatable("flightmod.options.movement_mode");
-        public static final Text INERTIA_COMPENSATION = Text.translatable("flightmod.options.inertia_compensation");
-        public static final Text AIR_JUMP_FLY = Text.translatable("flightmod.options.air_jump_fly");
-        public static final Text SNEAK_JUMP_DROP = Text.translatable("flightmod.options.sneak_jump_drop");
+            ConfigCategory category = builder.getOrCreateCategory(Text.literal("category"));
 
-        public static final int HEIGHT_STEP = 40;
-        public static final int HEIGHT_START = -2 * HEIGHT_STEP;
+            if (Config.currentServer == null) {
+                category.addEntry(entryBuilder.startBooleanToggle(
+                    Text.translatable("flightmod.options.server.enable_flying"), Config.enableFlying)
+                    .setSaveConsumer(value -> Config.enableFlying = value)
+                    .build());
 
-        private Screen parent;
-        private Text header;
-        private OptionButton movementModeButton;
+                category.addEntry(entryBuilder.startBooleanToggle(
+                    Text.translatable("flightmod.options.server.enable_fall_damage"), Config.doFallDamage)
+                    .setSaveConsumer(value -> Config.doFallDamage = value)
+                    .build());
 
-        public ConfigScreen(Screen parent) {
-            super(TITLE);
-            this.parent = parent;
-        }
+                category.addEntry(entryBuilder.startBooleanToggle(
+                    Text.translatable("flightmod.options.server.fly_in_water"), Config.flyInWater)
+                    .setSaveConsumer(value -> Config.flyInWater = value)
+                    .build());
 
-        @Override
-        public void init() {
-            super.init();
-            Config.setServer(client.getCurrentServerEntry());
-            header = Text.translatable("flightmod.options.for", Config.currentServer != null ? Text.literal(Config.currentServer) : SINGLEPLAYER);
+                category.addEntry(entryBuilder.startBooleanToggle(
+                    Text.translatable("flightmod.options.server.fly_in_lava"), Config.flyInLava)
+                    .setSaveConsumer(value -> Config.flyInLava = value)
+                    .build());
 
-            int x = width / 2 - 60;
-            int y = height / 2 + HEIGHT_START + 20;
-            movementModeButton = addDrawableChild(new OptionButton(
-                x, y, 120, 20,
-                () -> { return Text.translatable("flightmod.options.movement_mode." + Config.movementMode); },
-                (button) -> { Config.movementMode = Config.movementMode.next(); }
-            ));
-            y += HEIGHT_STEP;
-            addDrawableChild(new OptionButton(
-                x, y, 120, 20,
-                () -> { return Text.translatable("flightmod.options.inertia_compensation." + Config.inertiaCompensation); },
-                (button) -> { Config.inertiaCompensation = Config.inertiaCompensation.next(); }
-            ));
-            y += HEIGHT_STEP;
-            addDrawableChild(new OptionButton(
-                x, y, 120, 20,
-                () -> { return Config.airJumpFly ? ScreenTexts.ON : ScreenTexts.OFF; },
-                (button) -> { Config.airJumpFly = !Config.airJumpFly; }
-            ));
-            y += HEIGHT_STEP;
-            addDrawableChild(new OptionButton(
-                x, y, 120, 20,
-                () -> { return Config.sneakJumpDrop ? ScreenTexts.ON : ScreenTexts.OFF; },
-                (button) -> { Config.sneakJumpDrop = !Config.sneakJumpDrop; }
-            ));
-            addDrawableChild(new ButtonWidget(x, height - 30, 120, 20, ScreenTexts.DONE, (button) -> {
+                category.addEntry(entryBuilder.startFloatField(
+                    Text.translatable("flightmod.options.server.flying_cost"), Config.flyingCost)
+                    .setSaveConsumer(value -> Config.flyingCost = value)
+                    .setMin(0).setMax(1)
+                    .build());
+
+                category.addEntry(entryBuilder.startFloatField(
+                    Text.translatable("flightmod.options.server.flying_horizontal_cost"), Config.flyingHorizontalCost)
+                    .setSaveConsumer(value -> Config.flyingHorizontalCost = value)
+                    .setMin(0).setMax(1)
+                    .build());
+
+                category.addEntry(entryBuilder.startFloatField(
+                    Text.translatable("flightmod.options.server.flying_up_cost"), Config.flyingUpCost)
+                    .setSaveConsumer(value -> Config.flyingUpCost = value)
+                    .setMin(0).setMax(1)
+                    .build());
+
+                category.addEntry(entryBuilder.startIntSlider(
+                    Text.translatable("flightmod.options.server.food_level_warning"), Config.foodLevelWarning, -1, 10)
+                    .setSaveConsumer(value -> Config.foodLevelWarning = value)
+                    .build());
+            }
+
+            category.addEntry(entryBuilder.startEnumSelector(
+                Text.translatable("flightmod.options.client.movement_mode"), Config.MovementMode.class, Config.movementMode)
+                .setSaveConsumer(value -> Config.movementMode = value)
+                .setEnumNameProvider(value -> Text.translatable("flightmod.options.client.movement_mode." + value))
+                .build());
+
+            category.addEntry(entryBuilder.startEnumSelector(
+                Text.translatable("flightmod.options.client.inertia_compensation"), Config.InertiaCompensationMode.class, Config.inertiaCompensation)
+                .setSaveConsumer(value -> Config.inertiaCompensation = value)
+                .setEnumNameProvider(value -> Text.translatable("flightmod.options.client.inertia_compensation." + value))
+                .build());
+
+            category.addEntry(entryBuilder.startBooleanToggle(
+                Text.translatable("flightmod.options.client.air_jump_fly"), Config.airJumpFly)
+                .setSaveConsumer(value -> Config.airJumpFly = value)
+                .build());
+
+            category.addEntry(entryBuilder.startBooleanToggle(
+                Text.translatable("flightmod.options.client.sneak_jump_drop"), Config.sneakJumpDrop)
+                .setSaveConsumer(value -> Config.sneakJumpDrop = value)
+                .build());
+
+            builder.setSavingRunnable(() -> {
                 Config.save();
-                close();
-            }));
-        }
+            });
 
-        @Override
-        public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-            renderBackground(matrices);
-            int x = width / 2;
-            drawCenteredText(matrices, textRenderer, title, x, 10, 0xffffff);
-            int y = height / 2 + HEIGHT_START + 6;
-            drawCenteredText(matrices, textRenderer, header, x, y - 24, 0xffffff);
-            drawCenteredText(matrices, textRenderer, MOVEMENT_MODE, x, y, 0xffffff);
-            y += HEIGHT_STEP;
-            drawCenteredText(matrices, textRenderer, INERTIA_COMPENSATION, x, y, 0xffffff);
-            y += HEIGHT_STEP;
-            drawCenteredText(matrices, textRenderer, AIR_JUMP_FLY, x, y, 0xffffff);
-            y += HEIGHT_STEP;
-            drawCenteredText(matrices, textRenderer, SNEAK_JUMP_DROP, x, y, 0xffffff);
-            super.render(matrices, mouseX, mouseY, delta);
-            if (Config.currentServer != null && Config.movementMode.fullSpeed()) {
-                drawCenteredText(matrices, textRenderer, movementModeButton.getMessage(),
-                movementModeButton.x + movementModeButton.getWidth() / 2,
-                movementModeButton.y + (movementModeButton.getHeight() - 8) / 2, 0xff5555);
-            }
-        }
-
-        @Override
-        public void removed() {
-            Config.save();
-        }
-
-        @Override
-        public void close() {
-            client.setScreen(parent);
-        }
-
-        public class OptionButton extends ButtonWidget {
-            Supplier<Text> textSupplier;
-            PressAction onPress;
-
-            public OptionButton(int x, int y, int width, int height, Supplier<Text> textSupplier, PressAction onPress) {
-                super(x, y, width, height, textSupplier.get(), (button) -> {
-                    onPress.onPress(button);
-                    button.setMessage(textSupplier.get());
-                });
-                this.textSupplier = textSupplier;
-                this.onPress = onPress;
-            }
-        }
+            return builder.build();
+        };
     }
 }
