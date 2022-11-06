@@ -12,6 +12,7 @@ Requires [Cloth Config](https://www.curseforge.com/minecraft/mc-mods/cloth-confi
 - Warning message when food level drops to certain level
 - No longer immune to fall damage
 - Can't fly inside water/lava
+- Can't fly inside blocks that slow movement: cobwebs, sweet berry bushes and powder snow
 
 ### Client tweaks (configurable):
 
@@ -22,7 +23,7 @@ Requires [Cloth Config](https://www.curseforge.com/minecraft/mc-mods/cloth-confi
 Movement modification has three modes:
 
 - vanilla - disabled
-- vanilla vertical - cap vertical speed to vanilla values
+- vanilla vertical - cap vertical speed at vanilla values
 - full speed - fly at full speed in any direction! **(may be considered as unfair advantage by some servers)**
 
 **Client tweaks are available in multiplayer too but disabled by default.** Settings are stored per-server.
