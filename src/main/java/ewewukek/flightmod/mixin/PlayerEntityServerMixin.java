@@ -19,7 +19,7 @@ import net.minecraft.util.math.MathHelper;
 @Mixin(PlayerEntity.class)
 public class PlayerEntityServerMixin {
     @Inject(method = "tick", at = @At("HEAD"))
-    public void tick(CallbackInfo ci) {
+    private void tick(CallbackInfo ci) {
         PlayerEntity player = (PlayerEntity)(Object)this;
         PlayerAbilities abilities = player.getAbilities();
 
@@ -57,7 +57,7 @@ public class PlayerEntityServerMixin {
     }
 
     @Inject(method = "increaseTravelMotionStats", at = @At("TAIL"))
-    public void increaseTravelMotionStats(double dx, double dy, double dz, CallbackInfo ci) {
+    private void increaseTravelMotionStats(double dx, double dy, double dz, CallbackInfo ci) {
         PlayerEntity player = (PlayerEntity)(Object)this;
         PlayerAbilities abilities = player.getAbilities();
 
@@ -101,7 +101,7 @@ public class PlayerEntityServerMixin {
             target = "Lnet/minecraft/entity/player/PlayerAbilities;allowFlying:Z"
         )
     )
-    public boolean handleFallDamagePatch(PlayerAbilities abilities) {
+    private boolean handleFallDamagePatch(PlayerAbilities abilities) {
         if (abilities.creativeMode) { // vanilla behavior
             return abilities.allowFlying;
         }

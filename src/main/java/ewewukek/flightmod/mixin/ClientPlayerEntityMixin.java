@@ -35,7 +35,7 @@ public class ClientPlayerEntityMixin {
             ordinal = 0
         )
     )
-    public boolean sprintFix(PlayerAbilities abilities) {
+    private boolean sprintFix(PlayerAbilities abilities) {
         return abilities.creativeMode;
     }
 
