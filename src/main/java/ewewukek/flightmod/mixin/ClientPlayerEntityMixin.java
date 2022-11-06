@@ -14,6 +14,7 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.recipebook.ClientRecipeBook;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.item.ElytraItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -24,6 +25,18 @@ public class ClientPlayerEntityMixin {
     @Inject(method = "<init>", at = @At("TAIL"))
     private void onConnect(MinecraftClient client, ClientWorld world, ClientPlayNetworkHandler networkHandler, StatHandler stats, ClientRecipeBook recipeBook, boolean lastSneaking, boolean lastSprinting, CallbackInfo ci) {
         Config.setServer(client.getCurrentServerEntry());
+    }
+
+    @Redirect(
+        method = "tickMovement",
+        at = @At(
+            value = "FIELD",
+            target = "Lnet/minecraft/entity/player/PlayerAbilities;allowFlying:Z",
+            ordinal = 0
+        )
+    )
+    public boolean sprintFix(PlayerAbilities abilities) {
+        return abilities.creativeMode;
     }
 
     @Redirect(
