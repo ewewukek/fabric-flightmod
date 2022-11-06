@@ -36,7 +36,7 @@ public class ClientPlayerEntityMixin {
         )
     )
     private boolean sprintFix(PlayerAbilities abilities) {
-        return abilities.creativeMode;
+        return abilities.invulnerable;
     }
 
     @Redirect(

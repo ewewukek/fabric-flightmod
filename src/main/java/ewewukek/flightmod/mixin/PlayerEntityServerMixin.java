@@ -23,7 +23,7 @@ public class PlayerEntityServerMixin {
         PlayerEntity player = (PlayerEntity)(Object)this;
         PlayerAbilities abilities = player.getAbilities();
 
-        if (player.world.isClient || abilities.creativeMode) return;
+        if (player.world.isClient || abilities.invulnerable) return;
 
         if (!Config.enableFlying) {
             if (abilities.allowFlying || abilities.flying) {
@@ -61,7 +61,7 @@ public class PlayerEntityServerMixin {
         PlayerEntity player = (PlayerEntity)(Object)this;
         PlayerAbilities abilities = player.getAbilities();
 
-        if (player.world.isClient || abilities.creativeMode) return;
+        if (player.world.isClient || abilities.invulnerable) return;
 
         if (abilities.flying) {
             float r = 0.01f * Math.round(100 * (float)Math.sqrt(dx * dx + dz * dz));
@@ -102,7 +102,7 @@ public class PlayerEntityServerMixin {
         )
     )
     private boolean handleFallDamagePatch(PlayerAbilities abilities) {
-        if (abilities.creativeMode) { // vanilla behavior
+        if (abilities.invulnerable) { // vanilla behavior
             return abilities.allowFlying;
         }
         return !Config.doFallDamage;

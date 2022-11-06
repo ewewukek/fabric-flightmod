@@ -26,7 +26,7 @@ public class InGameHudMixin {
         MinecraftClient client = hud.client;
         ClientPlayerEntity player = client.player;
 
-        if (player.getAbilities().creativeMode) return;
+        if (player.getAbilities().invulnerable) return;
 
         if (player.getHungerManager().getFoodLevel() <= Config.foodLevelWarning) {
             int x = (hud.scaledWidth - hud.getTextRenderer().getWidth(warningText)) / 2;
