@@ -18,7 +18,7 @@ public class PlayerEntityServerMixin {
         PlayerEntity player = (PlayerEntity)(Object)this;
         PlayerAbilities abilities = player.getAbilities();
 
-        if (player.world.isClient) return;
+        if (player.world.isClient || abilities.creativeMode) return;
 
         if (!Config.enableFlying) {
             if (abilities.allowFlying || abilities.flying) {
@@ -54,10 +54,11 @@ public class PlayerEntityServerMixin {
     @Inject(method = "increaseTravelMotionStats", at = @At("TAIL"))
     public void increaseTravelMotionStats(double dx, double dy, double dz, CallbackInfo ci) {
         PlayerEntity player = (PlayerEntity)(Object)this;
+        PlayerAbilities abilities = player.getAbilities();
 
-        if (player.world.isClient || !Config.enableFlying) return;
+        if (player.world.isClient || abilities.creativeMode || !Config.enableFlying) return;
 
-        if (player.getAbilities().flying) {
+        if (abilities.flying) {
             float r = 0.01f * Math.round(100 * (float)Math.sqrt(dx * dx + dz * dz));
             player.addExhaustion(Config.flyingHorizontalCost * r);
             if (dy > 0) {
