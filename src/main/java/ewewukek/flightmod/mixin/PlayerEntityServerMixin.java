@@ -27,8 +27,7 @@ public class PlayerEntityServerMixin {
 
         if (!Config.enableFlying) {
             if (abilities.allowFlying || abilities.flying) {
-                abilities.allowFlying = false;
-                abilities.flying = false;
+                abilities.allowFlying = abilities.flying = false;
                 player.sendAbilitiesUpdate();
             }
             return;
@@ -38,13 +37,11 @@ public class PlayerEntityServerMixin {
         boolean prevFlying = abilities.flying;
 
         abilities.allowFlying = player.getHungerManager().getFoodLevel() > 0;
-        if (!Config.flyInWater && player.isSubmergedIn(FluidTags.WATER)) {
-            abilities.allowFlying = false;
-        }
-        if (!Config.flyInLava && player.isSubmergedIn(FluidTags.LAVA)) {
-            abilities.allowFlying = false;
-        }
-        if (!Config.flyInSlowBlocks && isTouchingSlowingBlock(player)) {
+
+        if (!Config.flyInWater && player.isSubmergedIn(FluidTags.WATER)
+        || !Config.flyInLava && player.isSubmergedIn(FluidTags.LAVA)
+        || !Config.flyInSlowBlocks && isTouchingSlowingBlock(player)) {
+
             abilities.allowFlying = false;
         }
 
@@ -64,7 +61,7 @@ public class PlayerEntityServerMixin {
         PlayerEntity player = (PlayerEntity)(Object)this;
         PlayerAbilities abilities = player.getAbilities();
 
-        if (player.world.isClient || abilities.creativeMode || !Config.enableFlying) return;
+        if (player.world.isClient || abilities.creativeMode) return;
 
         if (abilities.flying) {
             float r = 0.01f * Math.round(100 * (float)Math.sqrt(dx * dx + dz * dz));
