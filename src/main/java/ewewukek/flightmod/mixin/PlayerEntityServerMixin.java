@@ -67,7 +67,13 @@ public class PlayerEntityServerMixin {
         }
     }
 
-    @Redirect(method = "handleFallDamage", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/PlayerAbilities;allowFlying:Z"))
+    @Redirect(
+        method = "handleFallDamage",
+        at = @At(
+            value = "FIELD",
+            target = "Lnet/minecraft/entity/player/PlayerAbilities;allowFlying:Z"
+        )
+    )
     public boolean allowFlying(PlayerAbilities abilities) {
         return !Config.doFallDamage || abilities.creativeMode;
     }
