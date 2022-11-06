@@ -90,7 +90,10 @@ public class PlayerEntityServerMixin {
             target = "Lnet/minecraft/entity/player/PlayerAbilities;allowFlying:Z"
         )
     )
-    public boolean allowFlying(PlayerAbilities abilities) {
-        return !Config.doFallDamage || abilities.creativeMode;
+    public boolean handleFallDamagePatch(PlayerAbilities abilities) {
+        if (abilities.creativeMode) { // vanilla behavior
+            return abilities.allowFlying;
+        }
+        return !Config.doFallDamage;
     }
 }
