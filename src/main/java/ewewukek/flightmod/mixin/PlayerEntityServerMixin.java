@@ -7,9 +7,14 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import ewewukek.flightmod.Config;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tag.FluidTags;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.MathHelper;
 
 @Mixin(PlayerEntity.class)
 public class PlayerEntityServerMixin {
@@ -37,6 +42,9 @@ public class PlayerEntityServerMixin {
             abilities.allowFlying = false;
         }
         if (!Config.flyInLava && player.isSubmergedIn(FluidTags.LAVA)) {
+            abilities.allowFlying = false;
+        }
+        if (!Config.flyInSlowBlocks && isTouchingSlowingBlock(player)) {
             abilities.allowFlying = false;
         }
 
@@ -67,20 +75,26 @@ public class PlayerEntityServerMixin {
         }
     }
 
-    @Redirect(
-        method = "slowMovement",
-        at = @At(
-            value = "FIELD",
-            target = "Lnet/minecraft/entity/player/PlayerAbilities;flying:Z"
-        )
-    )
-    public boolean slowMovementPatch(PlayerAbilities abilities) {
-        PlayerEntity player = (PlayerEntity)(Object)this;
-        if (!player.world.isClient && !abilities.creativeMode && abilities.flying && !Config.flyInSlowBlocks) {
-            abilities.flying = false;
-            player.sendAbilitiesUpdate();
+    private boolean isTouchingSlowingBlock(PlayerEntity player) {
+        if (player.isRegionUnloaded()) {
+            return false;
         }
-        return abilities.flying;
+
+        Box box = player.getBoundingBox().contract(0.001);
+        BlockPos.Mutable blockPos = new BlockPos.Mutable();
+
+        for (int x = MathHelper.floor(box.minX); x < MathHelper.ceil(box.maxX); ++x) {
+            for (int y = MathHelper.floor(box.minY); y < MathHelper.ceil(box.maxY); ++y) {
+                for (int z = MathHelper.floor(box.minZ); z < MathHelper.ceil(box.maxZ); ++z) {
+                    blockPos.set(x, y, z);
+                    Block block = player.world.getBlockState(blockPos).getBlock();
+                    if (block == Blocks.COBWEB || block == Blocks.SWEET_BERRY_BUSH || block == Blocks.POWDER_SNOW) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     @Redirect(
