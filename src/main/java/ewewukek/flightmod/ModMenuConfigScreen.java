@@ -49,6 +49,12 @@ public class ModMenuConfigScreen implements ModMenuApi {
                     .setDefaultValue(Config.FLY_IN_LAVA_DEFAULT)
                     .build());
 
+                category.addEntry(entryBuilder.startBooleanToggle(
+                    Text.translatable("flightmod.options.server.fly_in_slow_blocks"), Config.flyInSlowBlocks)
+                    .setSaveConsumer(value -> Config.flyInSlowBlocks = value)
+                    .setDefaultValue(Config.FLY_IN_SLOW_BLOCKS_DEFAULT)
+                    .build());
+
                 category.addEntry(entryBuilder.startFloatField(
                     Text.translatable("flightmod.options.server.flying_cost"), Config.flyingCost)
                     .setSaveConsumer(value -> Config.flyingCost = value)

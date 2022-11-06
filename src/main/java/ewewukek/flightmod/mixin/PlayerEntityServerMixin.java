@@ -68,6 +68,22 @@ public class PlayerEntityServerMixin {
     }
 
     @Redirect(
+        method = "slowMovement",
+        at = @At(
+            value = "FIELD",
+            target = "Lnet/minecraft/entity/player/PlayerAbilities;flying:Z"
+        )
+    )
+    public boolean slowMovementPatch(PlayerAbilities abilities) {
+        PlayerEntity player = (PlayerEntity)(Object)this;
+        if (!player.world.isClient && !abilities.creativeMode && abilities.flying && !Config.flyInSlowBlocks) {
+            abilities.flying = false;
+            player.sendAbilitiesUpdate();
+        }
+        return abilities.flying;
+    }
+
+    @Redirect(
         method = "handleFallDamage",
         at = @At(
             value = "FIELD",

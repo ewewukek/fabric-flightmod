@@ -41,6 +41,9 @@ public class Config {
     public static boolean flyInLava;
     public static final boolean FLY_IN_LAVA_DEFAULT = false;
 
+    public static boolean flyInSlowBlocks;
+    public static final boolean FLY_IN_SLOW_BLOCKS_DEFAULT = false;
+
     public static int foodLevelWarning;
     public static final int FOOD_LEVEL_WARNING_DEFAULT = 6;
 
@@ -68,6 +71,7 @@ public class Config {
         doFallDamage = DO_FALL_DAMAGE_DEFAULT;
         flyInWater = FLY_IN_WATER_DEFAULT;
         flyInLava = FLY_IN_LAVA_DEFAULT;
+        flyInSlowBlocks = FLY_IN_SLOW_BLOCKS_DEFAULT;
         foodLevelWarning = FOOD_LEVEL_WARNING_DEFAULT;
 
         if (currentServer == null) {
@@ -142,6 +146,9 @@ public class Config {
                     case "flyInLava":
                         flyInLava = Boolean.parseBoolean(value);
                         break;
+                    case "flyInSlowBlocks":
+                        flyInSlowBlocks = Boolean.parseBoolean(value);
+                        break;
                     case "flyingCost":
                         flyingCost = Float.parseFloat(value);
                         break;
@@ -190,6 +197,7 @@ public class Config {
                 writer.write("doFallDamage = " + doFallDamage + "\n");
                 writer.write("flyInWater = " + flyInWater + "\n");
                 writer.write("flyInLava = " + flyInLava + "\n");
+                writer.write("flyInSlowBlocks = " + flyInSlowBlocks + "\n");
                 writer.write("flyingCost = " + flyingCost + "\n");
                 writer.write("flyingHorizontalCost = " + flyingHorizontalCost + "\n");
                 writer.write("flyingUpCost = " + flyingUpCost + "\n");
