@@ -256,48 +256,4 @@ public class Config {
             return value;
         }
     }
-
-    public enum InertiaCompensationMode {
-        NEVER("never"),
-        MOVING_FORWARD("moving_forward"),
-        ALWAYS("always");
-
-        private final String value;
-
-        InertiaCompensationMode(String value) {
-            this.value = value;
-        }
-
-        public static InertiaCompensationMode read(String value) throws IOException {
-            if (value.equals(NEVER.value)) return NEVER;
-            if (value.equals(MOVING_FORWARD.value)) return MOVING_FORWARD;
-            if (value.equals(ALWAYS.value)) return ALWAYS;
-            throw new IOException("invalid inertia compensation mode value: " + value);
-        }
-
-        public InertiaCompensationMode next() {
-            switch (this) {
-            case NEVER:
-                return MOVING_FORWARD;
-            case MOVING_FORWARD:
-                return ALWAYS;
-            case ALWAYS:
-                return NEVER;
-            }
-            throw new RuntimeException("invalid mode");
-        }
-
-        public boolean enabled() {
-            return this != NEVER;
-        }
-
-        public boolean always() {
-            return this == ALWAYS;
-        }
-
-        @Override
-        public String toString() {
-            return value;
-        }
-    }
 }
