@@ -13,6 +13,7 @@
   "flightmod.options.server.enable_fall_damage": "Enable fall damage",
   "flightmod.options.server.fly_in_lava": "Fly in lava",
   "flightmod.options.server.fly_in_water": "Fly in water",
+  "flightmod.options.server.fly_in_slow_blocks": "Fly in slowing blocks",
   "flightmod.options.server.flying_cost": "Exhaustion per tick flown",
   "flightmod.options.server.flying_horizontal_cost": "Exhaustion per meter flown",
   "flightmod.options.server.flying_up_cost": "Exhaustion per meter flown up",
