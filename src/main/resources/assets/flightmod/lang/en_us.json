@@ -1,5 +1,5 @@
 {
-  "flightmod.low_food_warning": "Low food level!",
+  "flightmod.low_food_warning": "§cLow food level!",
   "flightmod.options.for": "Flight Mod settings for: %s",
   "flightmod.options.for.singleplayer": "Flight Mod settings for singleplayer",
   "flightmod.options.client.movement_mode": "Movement mode",
