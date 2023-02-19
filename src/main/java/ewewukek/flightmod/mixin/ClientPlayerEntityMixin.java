@@ -28,14 +28,14 @@ public class ClientPlayerEntityMixin {
     }
 
     @Redirect(
-        method = "tickMovement",
+        method = "canSprint",
         at = @At(
             value = "FIELD",
             target = "Lnet/minecraft/entity/player/PlayerAbilities;allowFlying:Z",
             ordinal = 0
         )
     )
-    private boolean sprintFix(PlayerAbilities abilities) {
+    private boolean canSprint(PlayerAbilities abilities) {
         return abilities.invulnerable;
     }
 
