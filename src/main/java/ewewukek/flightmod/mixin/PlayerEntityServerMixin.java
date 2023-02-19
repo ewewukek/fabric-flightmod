@@ -36,10 +36,10 @@ public class PlayerEntityServerMixin {
         boolean prevAllowFlying = abilities.allowFlying;
         boolean prevFlying = abilities.flying;
 
-        abilities.allowFlying = player.getHungerManager().getFoodLevel() > 0;
+        abilities.allowFlying = !player.hasVehicle() && player.getHungerManager().getFoodLevel() > 0;
 
-        if (!Config.flyInWater && player.isSubmergedIn(FluidTags.WATER)
-        || !Config.flyInLava && player.isSubmergedIn(FluidTags.LAVA)
+        if (!Config.flyInWater && player.getFluidHeight(FluidTags.WATER) > 0.0
+        || !Config.flyInLava && player.getFluidHeight(FluidTags.LAVA) > 0.0
         || !Config.flyInSlowBlocks && isTouchingSlowingBlock(player)) {
 
             abilities.allowFlying = false;
