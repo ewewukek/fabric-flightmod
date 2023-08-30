@@ -15,6 +15,7 @@ import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 
 @Mixin(PlayerEntity.class)
 public class PlayerEntityServerMixin {
@@ -22,8 +23,9 @@ public class PlayerEntityServerMixin {
     private void tick(CallbackInfo ci) {
         PlayerEntity player = (PlayerEntity)(Object)this;
         PlayerAbilities abilities = player.getAbilities();
+        World world = player.getWorld();
 
-        if (player.world.isClient || abilities.invulnerable) return;
+        if (world.isClient || abilities.invulnerable) return;
 
         if (!Config.enableFlying) {
             if (abilities.allowFlying || abilities.flying) {
@@ -60,8 +62,9 @@ public class PlayerEntityServerMixin {
     private void increaseTravelMotionStats(double dx, double dy, double dz, CallbackInfo ci) {
         PlayerEntity player = (PlayerEntity)(Object)this;
         PlayerAbilities abilities = player.getAbilities();
+        World world = player.getWorld();
 
-        if (player.world.isClient || abilities.invulnerable) return;
+        if (world.isClient || abilities.invulnerable) return;
 
         if (abilities.flying) {
             float r = 0.01f * Math.round(100 * (float)Math.sqrt(dx * dx + dz * dz));
@@ -79,12 +82,13 @@ public class PlayerEntityServerMixin {
 
         Box box = player.getBoundingBox().contract(0.001);
         BlockPos.Mutable blockPos = new BlockPos.Mutable();
+        World world = player.getWorld();
 
         for (int x = MathHelper.floor(box.minX); x < MathHelper.ceil(box.maxX); ++x) {
             for (int y = MathHelper.floor(box.minY); y < MathHelper.ceil(box.maxY); ++y) {
                 for (int z = MathHelper.floor(box.minZ); z < MathHelper.ceil(box.maxZ); ++z) {
                     blockPos.set(x, y, z);
-                    Block block = player.world.getBlockState(blockPos).getBlock();
+                    Block block = world.getBlockState(blockPos).getBlock();
                     if (block == Blocks.COBWEB || block == Blocks.SWEET_BERRY_BUSH || block == Blocks.POWDER_SNOW) {
                         return true;
                     }
