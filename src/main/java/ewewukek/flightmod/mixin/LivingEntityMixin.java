@@ -31,6 +31,24 @@ public class LivingEntityMixin {
         entity.travel(input);
     }
 
+    @Redirect(
+        method = "travelControlled",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/entity/LivingEntity;travel(Lnet/minecraft/util/math/Vec3d;)V",
+            ordinal = 0
+        )
+    )
+    private void travelControlled(LivingEntity entity, Vec3d input) {
+        if (entity instanceof ClientPlayerEntity) {
+            ClientPlayerEntity player = (ClientPlayerEntity)entity;
+            if (player.getAbilities().flying) {
+                input = transformInput((ClientPlayerEntity)entity, input);
+            }
+        }
+        entity.travel(input);
+    }
+
     private static Vec3d transformInput(ClientPlayerEntity player, Vec3d input) {
         final float deg2rad = (float)(Math.PI / 180);
 

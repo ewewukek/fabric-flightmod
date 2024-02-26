@@ -1,6 +1,5 @@
 {
   "required": true,
-  "minVersion": "0.8",
   "package": "ewewukek.flightmod.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
@@ -11,7 +10,8 @@
     "PlayerEntityServerMixin"
   ],
   "server": [
-    "PlayerEntityServerMixin"
+    "PlayerEntityServerMixin",
+    "ServerPlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

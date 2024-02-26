@@ -58,23 +58,6 @@ public class PlayerEntityServerMixin {
         }
     }
 
-    @Inject(method = "increaseTravelMotionStats", at = @At("TAIL"))
-    private void increaseTravelMotionStats(double dx, double dy, double dz, CallbackInfo ci) {
-        PlayerEntity player = (PlayerEntity)(Object)this;
-        PlayerAbilities abilities = player.getAbilities();
-        World world = player.getWorld();
-
-        if (world.isClient || abilities.invulnerable) return;
-
-        if (abilities.flying) {
-            float r = 0.01f * Math.round(100 * (float)Math.sqrt(dx * dx + dz * dz));
-            player.addExhaustion(Config.flyingHorizontalCost * r);
-            if (dy > 0) {
-                player.addExhaustion(Config.flyingUpCost * 0.01f * Math.round(100 * dy));
-            }
-        }
-    }
-
     private boolean isTouchingSlowingBlock(PlayerEntity player) {
         if (player.isRegionUnloaded()) {
             return false;
