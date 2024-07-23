@@ -1,6 +1,6 @@
 ## Flight Mod
 
-Hunger-based flight for survival. With client-side flying mechanics tweaks. [Download from CurseForge](https://www.curseforge.com/minecraft/mc-mods/flight-mod-fabric/files/all)
+Hunger-based flight for survival. With client-side flying mechanics tweaks. [Download from CurseForge](https://www.curseforge.com/minecraft/mc-mods/flight-mod-fabric/files/all) [Download from modrinth](https://modrinth.com/mod/flight-mod-fabric/versions)
 
 Requires [Cloth Config](https://www.curseforge.com/minecraft/mc-mods/cloth-config) and [Mod Menu](https://www.curseforge.com/minecraft/mc-mods/modmenu).
 
