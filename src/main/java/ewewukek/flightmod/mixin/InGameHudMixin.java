@@ -29,8 +29,8 @@ public class InGameHudMixin {
         if (player.getAbilities().invulnerable) return;
 
         if (player.getHungerManager().getFoodLevel() <= Config.foodLevelWarning) {
-            int x = (hud.scaledWidth - hud.getTextRenderer().getWidth(warningText)) / 2;
-            int y = hud.scaledHeight / 2 - 15;
+            int x = (context.getScaledWindowWidth() - hud.getTextRenderer().getWidth(warningText)) / 2;
+            int y = context.getScaledWindowHeight() / 2 - 15;
             context.drawTextWithShadow(hud.getTextRenderer(), warningText, x, y, 0xffffffff);
         }
     }
