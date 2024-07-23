@@ -10,6 +10,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.text.Text;
 
 @Mixin(InGameHud.class)
@@ -17,10 +18,10 @@ public class InGameHudMixin {
     private static final Text warningText = Text.translatable("flightmod.low_food_warning");
 
     @Inject(
-        method = "render(Lnet/minecraft/client/gui/DrawContext;F)V",
+        method = "render(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/render/RenderTickCounter;)V",
         at = @At(value = "TAIL")
     )
-    void renderLowSaturationWarning(DrawContext context, float tickDelta, CallbackInfo ci) {
+    void renderLowSaturationWarning(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         InGameHud hud = (InGameHud)(Object)this;
 
         MinecraftClient client = hud.client;
