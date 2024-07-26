@@ -1,12 +1,15 @@
-## Flight Mod
+### Flight Mod
 
-Hunger-based flight for survival. With client-side flying mechanics tweaks. [Download from CurseForge](https://www.curseforge.com/minecraft/mc-mods/flight-mod-fabric/files/all) [Download from modrinth](https://modrinth.com/mod/flight-mod-fabric/versions)
+Fabric mod that adds hunger-based flight for survival. Can be used as client only mod for creative flight tweaks.
 
-Requires [Cloth Config](https://www.curseforge.com/minecraft/mc-mods/cloth-config) and [Mod Menu](https://www.curseforge.com/minecraft/mc-mods/modmenu).
+[Download from CurseForge](https://www.curseforge.com/minecraft/mc-mods/flight-mod-fabric/files/all)\
+[Download from modrinth](https://modrinth.com/mod/flight-mod/versions)
 
-**Flight is available in singleplayer only.** But you can put this mod on your server.
+Requires [Cloth Config](https://modrinth.com/mod/cloth-config) and [Mod Menu](https://modrinth.com/mod/modmenu).
 
-### Main features (configurable):
+**Flight is available in singleplayer only unless also installed on a server.**
+
+### Main features:
 
 - Hunger cost per tick while flying + per 1m flown horizontally + per 1m flown upwards
 - Warning message when food level drops to certain level
@@ -14,11 +17,11 @@ Requires [Cloth Config](https://www.curseforge.com/minecraft/mc-mods/cloth-confi
 - Can't fly inside water/lava
 - Can't fly inside blocks that slow movement: cobwebs, sweet berry bushes and powder snow
 
-### Client tweaks (configurable):
+### Client tweaks:
 
-- Modified flying movement. 3D flight if looking above/below certain degree. Makes landing on thin ledges easier.
-- Inertia compensation for side movement while flying forward. Lets you make sharp turns.
-- Extra keyboard shortcuts. Pressing Space key while falling will enable flight, pressing Shift+Space will disable flight.
+- Modified flying movement. 3D flight if looking above/below certain degree. Makes landing on thin ledges easier
+- Inertia compensation for side movement while flying forward. Lets you make sharp turns
+- Extra keyboard shortcuts. Pressing Space key while falling will enable flight, pressing Shift+Space will disable flight
 
 Movement modification has three modes:
 
