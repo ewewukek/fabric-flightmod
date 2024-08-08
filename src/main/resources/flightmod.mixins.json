@@ -6,10 +6,9 @@
     "ClientPlayerEntityMixin",
     "InGameHudMixin",
     "LivingEntityMixin",
-    "PlayerEntityMixin",
-    "PlayerEntityServerMixin"
+    "PlayerEntityMixin"
   ],
-  "server": [
+  "mixins": [
     "PlayerEntityServerMixin",
     "ServerPlayerEntityMixin"
   ],
